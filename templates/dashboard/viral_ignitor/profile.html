@@ -1,0 +1,148 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static i18n %}
+{% block title %} Dashboard {% endblock %}
+{% block content %}
+<script src="{% static 'js/core_post.js' %}"></script>
+<div class="wrapper">
+   <div class="subheader instagram-activity">
+      <div class="wrap">
+         <div class="subheader-main wrap-m w-100 p-r-0">
+            <div class="wrap-c">
+               <h3 class="title"><i class="fab fa-instagram" style="color: #d62976"></i> {% trans 'instagramActivity' %}</h3>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="content-one-column nicescroll instagram-activity" tabindex="1" style="overflow-y: hidden; outline: none;">
+      <div class="ig-ac-settings">
+         <div class="ig-ac-header">
+            <div class="top wrap-m">
+               <div class="brand wrap-c">
+                  <div class="avatar">
+                     <a href="https://instagram.com/sayuri_jp01" target="_blank">
+                     <img src="{% static 'img/2548c33df816bca1c7ba88753f0a3dcf.jpg' %}">
+                     </a>
+                  </div>
+                  <div class="info">
+                     <div class="title">sayuri_jp01</div>
+                     <div class="desc">{% trans 'profile' %}</div>
+                  </div>
+               </div>
+               <div class="menu wrap-c">
+                  <ul>
+                     <li class=""><a href="{% url 'settings' %}"><i class="fas fa-cog"></i> {% trans 'settings' %}</a></li>
+                     <li class="active"><a href="{% url 'profile' %}"><i class="fas fa-user"></i> {% trans 'profile' %}</a></li>
+                     <li class=""><a href="{% url 'stats' %}"><i class="far fa-chart-bar"></i> {% trans 'stats' %}</a></li>
+                     <li class=""><a href="{% url 'log' %}"><i class="fas fa-history"></i> {% trans 'log' %}</a></li>
+                  </ul>
+                  <div class="clearfix"></div>
+               </div>
+            </div>
+         </div>
+         <div class="ig-ac-profile">
+            <div class="ig-ac-profile-items row ajax-load-profile" data-id="42738698050" data-page="-1" data-load-type="scroll" data-scroll=".instagram-activity.content-one-column" data-loading="0">
+               <div class="col-md-12">
+                  <div class="ig-ac-profile-info row">
+                     <div class="col-md-6 m-b-25">
+                        <div class="fw-6 m-b-5">Sayuri Kondo</div>
+                        <div class="m-b-5">{% trans 'thereIsAReasonTolive' %} 🤘 {% trans 'forTheMoment' %}</div>
+                        <div class=""><a href=""></a></div>
+                     </div>
+                     <div class="col-md-6 ig-ac-profile-info-count">
+                        <div class="row">
+                           <div class="col m-b-30">
+                              <div class="item">
+                                 <div class="num">
+                                    <span class="text-info">4</span>
+                                    <span class="small text-danger"></span>
+                                 </div>
+                                 <div class="text">{% trans 'media' %}</div>
+                              </div>
+                           </div>
+                           <div class="col m-b-30">
+                              <div class="item">
+                                 <div class="num">
+                                    <span class="text-info">10</span>
+                                    <span class="small text-success">+1</span>
+                                 </div>
+                                 <div class="text">{% trans 'followers' %}</div>
+                              </div>
+                           </div>
+                           <div class="col m-b-30">
+                              <div class="item">
+                                 <div class="num">
+                                    <span class="text-info">30</span>
+                                    <span class="small text-danger"></span>
+                                 </div>
+                                 <div class="text">{% trans 'following' %}</div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="box-item col-md-3 m-b-30">
+                  <div class="item">
+                     <a href="https://instagram.com/p/CFrelV_FaHP" target="_blank" class="img" style="background-image: url('https://scontent-iad3-1.cdninstagram.com/v/t51.2885-15/e15/p640x640/120284378_245557143553818_2631748044163620797_n.jpg?_nc_ht=scontent-iad3-1.cdninstagram.com&amp;_nc_cat=106&amp;_nc_ohc=HkvS668PKtoAX-W9LrX&amp;_nc_tp=19&amp;oh=aab2778a8fac229f07de7121766acfb5&amp;oe=5F9AE02E&amp;ig_cache_key=MjQwODE1MjkzMzM4MjU5NTAyMw%3D%3D.2');"><i class="far fa-image"></i></a>
+                     <div class="info wrap-m">
+                        <div class="wrap-c">
+                           <span><i class="far fa-heart text-danger m-r-5"></i> 1</span>
+                           <!-- <span><i class="far fa-comment text-success m-r-5"></i> 1</span> -->
+                        </div>
+                        <div class="wrap-c">
+                           <a href="#" class="actionItem" data-remove="box-item"><i class="far fa-trash-alt"></i></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="box-item col-md-3 m-b-30">
+                  <div class="item">
+                     <a href="https://instagram.com/p/CFjR29Zl0No" target="_blank" class="img" style="background-image: url('https://scontent-iad3-1.cdninstagram.com/v/t51.2885-15/e15/p640x640/120041685_768346907332193_5327338910036647795_n.jpg?_nc_ht=scontent-iad3-1.cdninstagram.com&amp;_nc_cat=105&amp;_nc_ohc=xWfY5iObLCIAX9mvXg-&amp;_nc_tp=19&amp;oh=6c8613be15258a2e7f4e045ff1b99156&amp;oe=5F9B0ABB&amp;ig_cache_key=MjQwNTg0NTE2OTUxNjAwNDIwMA%3D%3D.2');"><i class="far fa-image"></i></a>
+                     <div class="info wrap-m">
+                        <div class="wrap-c">
+                           <span><i class="far fa-heart text-danger m-r-5"></i> 1</span>
+                           <!-- <span><i class="far fa-comment text-success m-r-5"></i> 1</span> -->
+                        </div>
+                        <div class="wrap-c">
+                           <a href="#" class="actionItem" data-remove="box-item"><i class="far fa-trash-alt"></i></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="box-item col-md-3 m-b-30">
+                  <div class="item">
+                     <a href="https://instagram.com/p/CFgjd6ZlVrR" target="_blank" class="img" style="background-image: url('https://scontent-iad3-1.cdninstagram.com/v/t51.2885-15/fr/e15/s1080x1080/120092984_2782579548667392_5484395168973607659_n.jpg?_nc_ht=scontent-iad3-1.cdninstagram.com&amp;_nc_cat=100&amp;_nc_ohc=89FZlQuZ29sAX-w1YUy&amp;oh=de591a08955a5e8a6fe2e57ecf3cfeb4&amp;oe=5F9A53F6&amp;ig_cache_key=MjQwNTA3ODE4ODIxNDgwMzE1Mw%3D%3D.2');"><i class="far fa-image"></i></a>
+                     <div class="info wrap-m">
+                        <div class="wrap-c">
+                           <span><i class="far fa-heart text-danger m-r-5"></i> 1</span>
+                           <!-- <span><i class="far fa-comment text-success m-r-5"></i> 1</span> -->
+                        </div>
+                        <div class="wrap-c">
+                           <a href="#" class="actionItem" data-remove="box-item"><i class="far fa-trash-alt"></i></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="box-item col-md-3 m-b-30">
+                  <div class="item">
+                     <a href="https://instagram.com/p/CFeX_gvhNy1" target="_blank" class="img" style="background-image: url('https://scontent-iad3-1.cdninstagram.com/v/t51.2885-15/e15/p640x640/120012985_265590524550777_2051922468624774365_n.jpg?_nc_ht=scontent-iad3-1.cdninstagram.com&amp;_nc_cat=109&amp;_nc_ohc=7keTfXR8OYwAX9dhhBE&amp;_nc_tp=19&amp;oh=9a7c225e62317d6b9a491db6d3c6f171&amp;oe=5F9CF466&amp;ig_cache_key=MjQwNDQ2NDc3MDYxNjE4ODA4NQ%3D%3D.2');"><i class="far fa-image"></i></a>
+                     <div class="info wrap-m">
+                        <div class="wrap-c">
+                           <span><i class="far fa-heart text-danger m-r-5"></i> 1</span>
+                           <!-- <span><i class="far fa-comment text-success m-r-5"></i> 1</span> -->
+                        </div>
+                        <div class="wrap-c">
+                           <a href="#" class="actionItem" data-remove="box-item"><i class="far fa-trash-alt"></i></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="ascrail2000" class="nicescroll-rails nicescroll-rails-vr" style="width: 5px; z-index: auto; cursor: default; position: absolute; top: 0px; left: 681px; height: 522px; display: block; opacity: 0;">
+      <div class="nicescroll-cursors" style="position: relative; top: 0px; float: right; width: 5px; height: 157px; background-color: rgb(215, 215, 215); border: none; background-clip: padding-box; border-radius: 0px;"></div>
+   </div>
+</div>
+{% endblock %}

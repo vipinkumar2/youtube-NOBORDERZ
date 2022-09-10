@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff700"/>
+      <stop offset="1" stop-color="#ffa200"/>
+    </linearGradient>
+    <clipPath id="clip-dashboard_1">
+      <rect width="80" height="80"/>
+    </clipPath>
+  </defs>
+  <g id="dashboard_1" data-name="dashboard – 1" clip-path="url(#clip-dashboard_1)">
+    <g id="dashboard" transform="translate(0 -57)">
+      <g id="Group_1" data-name="Group 1" transform="translate(0 64)">
+        <path id="Path_1" data-name="Path 1" d="M79.783,120.688V64H0v56.688H30.584v5.967H21.276v2.983H61.167v-2.983H49.2v-5.967Zm-33.243,5.967h-13.3v-5.967h13.3ZM2.659,117.7V66.983H77.124V117.7Z" transform="translate(0 -64)" fill="url(#linear-gradient)"/>
+      </g>
+    </g>
+  </g>
+</svg>

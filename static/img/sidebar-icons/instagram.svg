@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <clipPath id="clip-instagram">
+      <rect width="80" height="80"/>
+    </clipPath>
+  </defs>
+  <g id="instagram" clip-path="url(#clip-instagram)">
+    <g id="instagram_tool" data-name="instagram tool" transform="translate(3 3)">
+      <path id="Path_3" data-name="Path 3" d="M53.381,0H19.812A19.835,19.835,0,0,0,0,19.813V53.382A19.835,19.835,0,0,0,19.812,73.195H53.381A19.835,19.835,0,0,0,73.194,53.382V19.813A19.835,19.835,0,0,0,53.381,0ZM68.9,53.382A15.539,15.539,0,0,1,53.381,68.9H19.812A15.539,15.539,0,0,1,4.29,53.382V19.813A15.54,15.54,0,0,1,19.812,4.291H53.381A15.539,15.539,0,0,1,68.9,19.813Zm0,0" fill="#fff"/>
+      <path id="Path_4" data-name="Path 4" d="M136.018,116a20.014,20.014,0,1,0,20.014,20.014A20.014,20.014,0,0,0,136.018,116Zm0,35.736a15.723,15.723,0,1,1,15.723-15.723,15.723,15.723,0,0,1-15.723,15.723Zm0,0" transform="translate(-99.421 -99.42)" fill="#fff"/>
+      <path id="Path_5" data-name="Path 5" d="M363.891,66.285A5.914,5.914,0,1,0,369.8,72.2a5.914,5.914,0,0,0-5.909-5.915Zm0,7.537a1.623,1.623,0,1,1,1.623-1.623A1.623,1.623,0,0,1,363.891,73.822Zm0,0" transform="translate(-306.802 -56.809)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

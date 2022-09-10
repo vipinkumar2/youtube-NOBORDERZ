@@ -1,0 +1,151 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static dashboard_extras i18n %}
+{% block title %} Dashboard {% endblock %}
+{% block style %}
+    <style>
+        .icon {
+            display: inline-block;
+            height: 70px;
+            width: 70px;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 70px;
+            font-size: 40px;
+            position: absolute;
+            padding: 0;
+        }
+    </style>
+
+    <script>
+    Date.prototype.yyyymmdd = function() {
+
+    var yyyy = this.getFullYear().toString();
+    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+    var dd  = this.getDate().toString();
+
+    return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
+ };
+
+    </script>
+    <script src="{% static 'js/core_post.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="wrapper">
+   <div class="subheader instagram-activity">
+      <div class="wrap">
+         <div class="subheader-main wrap-m w-100 p-r-0">
+            <div class="wrap-c">
+               <h3 class="title"><i class="fab fa-instagram" style="color: #d62976"></i> {% trans 'instagramActivity' %}</h3>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="content-one-column nicescroll instagram-activity">
+      <div class="ig-ac-settings">
+         <div class="ig-ac-header">
+            <div class="top wrap-m">
+               <div class="brand wrap-c">
+                  <div class="avatar">
+
+                     <a href="https://instagram.com/{{ insta_account.account_username }}" target="_blank">
+{#                     <img src="https://app.viralignitor.com/assets/tmp/avatar/2548c33df816bca1c7ba88753f0a3dcf.jpg">#}
+                       <div class="icon border"><i class="fas fa-user" style="color: #fa7070"></i></div>
+
+                     </a>
+                  </div>
+                  <div class="info">
+                     <div class="title">{{ insta_account.account_username }}</div>
+                     <div class="desc">{% trans 'profile' %}</div>
+                  </div>
+               </div>
+               <div class="menu wrap-c">
+                  <ul>
+                      {% comment %}
+                     <li class=""><a href="{% url 'settings' %}"><i class="fas fa-cog"></i> {% trans 'settings' %}</a></li>
+                     <li class=""><a href="{% url 'profile' %}"><i class="fas fa-user"></i> {% trans 'profile' %}</a></li>
+                     <li class="active"><a href="{% url 'stats' insta_account.id %}"><i class="far fa-chart-bar"></i> {% trans 'stats' %}</a></li>
+                     <li class=""><a href="{% url 'log' insta_account.id %}"><i class="fas fa-history"></i> {% trans 'log' %}</a></li>
+                     {% endcomment %}
+                  </ul>
+                  <div class="clearfix"></div>
+               </div>
+            </div>
+         </div>
+         <div class="ig-ac-stats">
+            <div class="ig-ac-stats-items row ajax-load-stats" data-id="42738698050" data-page="1" data-load-type="scroll" data-scroll=".instagram-activity.content-one-column" data-loading="0">
+               <div class="col-md-12 col-sm-12 m-b-30">
+                  <div class="card rounded">
+                     <div class="card-header wrap-m">
+                        <div class="card-title wrap-c text-info"><i class="fas fa-caret-right p-r-5"></i> {% trans 'last7Days' %}</div>
+                     </div>
+                     <div class="card-body h-350">
+                        <div class="chartjs-size-monitor">
+                           <div class="chartjs-size-monitor-expand">
+                              <div class=""></div>
+                           </div>
+                           <div class="chartjs-size-monitor-shrink">
+                              <div class=""></div>
+                           </div>
+                        </div>
+                        <canvas id="line-stacked-area" height="310" style="display: block; width: 579px; height: 310px;" width="579" class="chartjs-render-monitor"></canvas>
+                     </div>
+                  </div>
+               </div>
+                {% comment %}
+               <div class="col-md-4 col-sm-6 m-b-30">
+                  <div class="widget-card p-20">
+                     <div class="widget-details wrap-m">
+                        <div class="widget-info wrap-c">
+                           <div class="widget-title text-info text-uppercase">{% trans 'followersGained' %}</div>
+                           <div class="widget-desc">{% trans 'totalofFolloweRsgained' %}</div>
+                        </div>
+                        <div class="widget-stats wrap-c text-info">1</div>
+                     </div>
+                  </div>
+               </div>
+               {% endcomment %}
+               <script type="text/javascript">
+                  $(function(){
+                  		Core.lineChart(
+                  			"line-stacked-area",
+                  			[{% for day in days %}new Date("{{ day|to_string }}").yyyymmdd(),{% endfor %}],
+                  			[
+                  				[{% for a in single_follow %}{{ a }},{% endfor %}],
+                  				[{% for b in multiple_follow %}{{ b }},{% endfor %}],
+                  				[{% for c in multiple_unfollow %}{{ c }},{% endfor %}],
+                  				[{% for d in hashtag_follow %}{{ d }},{% endfor %}],
+                  				[{% for e in hashtag_like %}{{ e }},{% endfor %}],
+                            ],
+                  			[
+                  				"Single Follow",
+                  				"Multiple Follow",
+                  				"Multiple UnFollow",
+                  				"Hashtags Follow",
+                  				"Hashtags Like",
+                  			]
+                  		);
+                  });
+               </script>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<input type="hidden" id="insta_user_id" name="insta_user_id">
+{% endblock %}
+
+{% block script %}
+<script>
+    $(function(){
+      $('#useraccount_select').on('change', function (e) {
+
+          var url = "/advance/dashboard/stats/" + $(this).val();
+
+          if (url) {
+              window.location = url; 
+          }
+          return false;
+      });
+    });
+</script>
+{% endblock %}

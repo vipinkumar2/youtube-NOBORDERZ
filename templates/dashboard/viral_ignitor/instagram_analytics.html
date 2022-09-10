@@ -1,0 +1,219 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static i18n  %}
+{% block title %} Instagram Analytics {% endblock %}
+{% block css %}
+<link rel='stylesheet' type='text/css' href="{% static 'css/jquery.dataTables.min.css' %}">
+<link rel="stylesheet" media="all" href="{% static '/select2/css/select2.min.css' %}"/>
+
+#useraccount_select{
+   display: none!important;
+}
+{% endblock %}
+{% block content %}
+<script src="{% static 'js/core_post.js' %}"></script>
+<div class="wrapper">
+   <div class="subheader instagram-analytics">
+      <div class="wrap">
+         <script src="{% static 'js/jszip.min.js' %}">
+            type="text/javascript"></script>
+         <script src="{% static 'js/kendo.all.min.js' %}"
+            type="text/javascript"></script>
+         <script type="text/javascript">
+            $(document).on("click", ".ExportPDF", function(){
+                   $(".none-export").hide();
+                   $(".instagram-analytics .wrap-analytics").css({"width": 745});
+                   Core.overplay();
+                   setTimeout(function(){
+                       ExportPdf();
+                   }, 1000);
+
+                   setTimeout(function(){
+                       $(".instagram-analytics .wrap-analytics").attr("style", "");
+                       $(".none-export").show();
+                       $(".loading-overplay").hide();
+                   }, 4000);
+               });
+
+            	function ExportPdf(){
+                   kendo.pdf.defineFont({
+                       "DejaVu Sans"             : "#",
+                       "DejaVu Sans|Bold"        : "#",
+                       "DejaVu Sans|Bold|Italic" : "#",
+                       "DejaVu Sans|Italic"      : "#",
+                       "WebComponentsIcons"      : "#"
+                   });
+
+                   kendo.drawing
+                   .drawDOM(".wrap-analytics",
+                   {
+                       forcePageBreak: ".page-break",
+                       paperSize: "A4",
+                       margin: { top: "1cm", bottom: "1cm" },
+                       scale: 0.8,
+                       height: 500,
+                       template: $("#page-template").html(),
+                       keepTogether: ".prevent-split"
+                   })
+                       .then(function(group){
+                       kendo.drawing.pdf.saveAs(group, "Report_Instagram_Account.pdf")
+                   });
+               }
+
+         </script>
+         <div class="subheader-main wrap-m w-100 p-r-0">
+            <div class="wrap-c">
+               <button type="button" class="btn btn-label-info m-r-10 subheader-toggle"><i class="fas fa-bars"></i></button>
+               <h3 class="title"><i class="fab fa-instagram" style="color: #d62976"></i> {% trans 'instagramAnalytics' %}</h3>
+            </div>
+<!--            <button type="button" class="btn btn-label-info float-right wrap-c ExportPDF"><i class="fas fa-file-export"></i> {% trans 'export' %}</button>-->
+
+            <select name="mt_account" id="mt_account" class="mx-3 my-3">
+            {% for mt_account in mt_user_accounts %}
+            <option id="{{mt_account.id}}" value="{{mt_account.id}}">{{mt_account.account_username}}</option>
+            {% endfor%}
+            </select>
+         </div>
+      </div>
+   </div>
+
+   <div style="margin-left: 1%; margin-right: 1%;">
+      <div class="column-two nicescroll">
+         <div class="wrap-m h-100">
+            <div style="overflow-x:auto;">
+            <table id="analytics_table" class="table  table-bordered" style="width: 100%!important;">
+               <thead>
+                  <th style="column-width: 100px;">Date</th>
+                  {% for date in account_analytics.0 %}
+                     <th style="column-width: 100px;">{{date.date}}</th>
+                  {% endfor %}
+               </thead>
+               <tbody>
+               <tr>
+                  {% for followers in account_analytics.1 %}
+                     <th style="column-width: 100px;">{{followers}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for following in account_analytics.2 %}
+                     <th style="column-width: 100px;">{{following}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for cta in account_analytics.3 %}
+                     <th style="column-width: 100px;">{{cta}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for today_followers in account_analytics.4 %}
+                     <th style="column-width: 100px;">{{today_followers}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for follow_bk_per in account_analytics.5 %}
+                     <th style="column-width: 100px;">{{follow_bk_per}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for new_dm in account_analytics.6 %}
+                     <th style="column-width: 100px;">{{new_dm}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for feed_post in account_analytics.7 %}
+                     <th style="column-width: 100px;">{{feed_post}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for story_post in account_analytics.8 %}
+                     <th style="column-width: 100px;">{{story_post}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for comment_follow in account_analytics.9 %}
+                     <th style="column-width: 100px;">{{comment_follow}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for follow in account_analytics.10 %}
+                     <th style="column-width: 100px;">{{follow}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for unfollow in account_analytics.11 %}
+                     <th style="column-width: 100px;">{{unfollow}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for story_dm in account_analytics.12 %}
+                     <th style="column-width: 100px;">{{story_dm}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for thank_u_dm in account_analytics.13 %}
+                     <th style="column-width: 100px;">{{thank_u_dm}}</th>
+                  {% endfor %}
+               </tr>
+               <tr>
+                  {% for comment_post in account_analytics.14 %}
+                     <th style="column-width: 100px;">{{comment_post}}</th>
+                  {% endfor %}
+               </tr>
+               </tbody>
+            </table>
+               </div>
+         </div>
+      </div>
+   </div>
+</div>
+<input type="hidden" value="{% if user_account %}{{user_account.id}} {% else %} {{mt_user_accounts.first.id}} {% endif %}" id="selected_insta_account"/>
+<input type="hidden" value="1" id="page_load"/>
+{% endblock %}
+
+
+{% block script%}
+
+<script>
+$(document).ready(function(){
+      $("#useraccount_select").hide();
+      var user_account_id = "{{user_account.id}}"
+      $('#page_load').val(0);
+      $("#mt_account").val(user_account_id).change()
+      $('#page_load').val(1);
+
+      $('#mt_account').on('change', function (e) {
+         if($("#page_load").val() == 1){
+             var url = "/advance/dashboard/instagram_analytics/" + $(this).val();
+             if (url) {
+                 window.location = url;
+             }
+          }
+          return false;
+      });
+});
+
+</script>
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static '/select2/js/select2.full.min.js' %}"></script>
+
+   <script>
+      $(document).ready( function () {
+         $('#analytics_table').DataTable({
+            "scrollY":"250px",
+            "scrollCollapse": true,
+            "scrollX": true,
+            "paging":false
+         });
+      });
+
+   $(document).ready( function () {
+      $("#mt_account").select2({
+      });
+      var table_height =  $(".wrapper").height();
+      table_height = table_height - 150;
+      $(".dataTables_scrollBody").css("maxHeight", table_height);
+   });
+
+   $()
+
+   </script>
+{% endblock %}

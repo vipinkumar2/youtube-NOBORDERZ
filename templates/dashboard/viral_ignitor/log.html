@@ -1,0 +1,195 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static dashboard_extras i18n %}
+{% block title %} Instagram Activity {% endblock %}
+{% block style %}
+<style>
+   .icon {
+   display: inline-block;
+   height: 70px;
+   width: 70px;
+   border-radius: 4px;
+   text-align: center;
+   line-height: 70px;
+   font-size: 40px;
+   position: absolute;
+   padding: 0;
+   }
+   .log_content {
+        padding: 10px 0 0 0;
+    }
+</style>
+<script src="{% static 'js/core_post.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="wrapper">
+   <div class="subheader instagram-activity">
+      <div class="wrap">
+         <div class="subheader-main wrap-m w-100 p-r-0">
+            <div class="wrap-c">
+               <h3 class="title"><i class="fab fa-instagram" style="color: #d62976"></i> {% trans 'instagramActivity' %}</h3>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="content-one-column nicescroll instagram-activity" tabindex="1" style="overflow-y: hidden; outline: none;">
+      <div class="ig-ac-settings">
+         <div class="ig-ac-header">
+            <div class="top wrap-m">
+               <div class="brand wrap-c">
+                  <div class="avatar">
+
+                     <a href="https://instagram.com/{{ insta_account.account_username }}" target="_blank">
+
+
+                        <div class="icon border"><i class="fas fa-user" style="color: #fa7070"></i></div>
+
+                     </a>
+                  </div>
+                  <div class="info">
+                     <div class="title">{{ insta_account.account_username }}</div>
+                     <div class="desc">Profile</div>
+                  </div>
+               </div>
+               <div class="menu wrap-c">
+                  <ul>
+                     {% comment %}
+                     <li class=""><a href="{% url 'settings' %}"><i class="fas fa-cog"></i> {% trans 'settings' %}</a></li>
+                     <li class=""><a href="{% url 'profile' %}"><i class="fas fa-user"></i> {% trans 'profile' %}</a></li>
+                     <li class=""><a href="{% url 'stats' insta_account.id %}"><i class="far fa-chart-bar"></i> {% trans 'stats' %}</a></li>
+                     <li class="active"><a href="{% url 'log' insta_account.id %}"><i class="fas fa-history"></i> {% trans 'log' %}</a></li>
+                     {% endcomment %}
+                  </ul>
+                  <div class="clearfix"></div>
+               </div>
+            </div>
+         </div>
+         <div class="ig-ac-log">
+            <ul class="ig-ac-log-memu">
+
+               <li>Show:</li>
+               <li class="active"><a href="{% url 'log' insta_account.id %}" class="ig-ac-log-type" id="{{ insta_account.id }}">{% trans 'all' %}</a></li>
+               <li class=""><a href="{% url 'log_option' insta_account.id 'USERNAME_FOLLOW' %}">{% trans 'singleFollow' %}</a></li>
+               <li class=""><a href="{% url 'log_option' insta_account.id 'MULTI_USER_FOLLOW' %}">{% trans 'multiplefollow' %}</a></li>
+               <li class=""><a href="{% url 'log_option' insta_account.id 'AUTO_UNFOLLOW' %}">{% trans 'multipleUnFollow' %}</a></li>
+               <li class=""><a href="{% url 'log_option' insta_account.id 'FOLLOW_TAGS' %}">{% trans 'hashtagsFollow' %}</a></li>
+               <li class=""><a href="{% url 'log_option' insta_account.id 'LIKE_MULTIPLE_POSTS' %}">{% trans 'hashtagsLike' %}</a></li>
+               <li class=""><a href="{% url 'log_option' insta_account.id 'POST' %}">{% trans 'postImage' %}</a></li>
+               {% comment %}
+               <li class=""><a href="{% url 'log_option' insta_account.id 'POST_VIDEO' %}">{% trans 'postVideo' %}</a></li>
+               <li class=""><a href="{% url 'log_option' insta_account.id 'POST_STORY' %}">{% trans 'postStory' %}</a></li>
+               {% endcomment %}
+            </ul>
+            <div class="ig-ac-log-items row>
+               <div class="empty m-t-100 m-b-100">
+               <div class="icon"></div>
+               <div class="row">
+                  <div class="col-md-12 col-sm-6">
+                     <div class="card m-b-30">
+                        <div class="card-body widget-list h-300 nicescroll p-0 no-update" tabindex="3" style="overflow-y: hidden; outline: none;">
+                            {% for x in data %}
+                            <div class="widget-item widget-item-3 search-item line padding">
+                                 <div class="log_content">
+                                    <div class="title fw-4">
+                                    {% if x.status == 'C' %} <span class="badge badge-success"> {% trans 'completed' %} </span>
+                                    {% elif x.status == 'F' %}  <span class="badge badge-danger"> {% trans 'failed' %} </span>
+                                    {% elif x.status == 'P' %} <span class="badge badge-warning"> {% trans 'pending' %}
+
+                                    </span>
+                                    {% elif x.status == 'I' %} <span class="badge badge-info"> {% trans 'inProgress' %} </span> {% endif %}
+                                         | {{ x.job_title|safe }} | {{x.data.failure_reason}}
+                                         | {% if x.data.like_n_comment_performed_on %}{{x.data.like_n_comment_performed_on}}{% endif %}
+                                       <span class="badge badge-warning mx-1">
+                                          Scheduled for: {{x|scheduled_for:x}}
+                                       </span>
+                                       {% if x.status == 'P' %}
+                                       <span class="float-right">
+                                          {% if x.job_type == 'POST' %}
+                                            <a href="{% url 'edit_job' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+
+                                          {% if x.job_type == 'MULTI_USER_FOLLOW' %}
+                                            <a href="{% url 'edit_multifollow_job' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+
+                                          {% if x.job_type == 'CMNT_TARGET_POST' %}
+                                            <a href="{% url 'edit_manual_cmnt' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+                                          {% if x.job_type == 'USERNAME_FOLLOW' %}
+                                            <a href="{% url 'edit_single_follow' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+                                          {% if x.job_type == 'LIKE_CMNT_FOLI_POST' %}
+                                            <a href="{% url 'edit_like_cmnt' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+                                          {% if x.job_type == 'LIKE_MULTIPLE_POSTS' %}
+                                            <a href="{% url 'edit_hashtags_like' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+                                          {% if x.job_type == 'LIKE_COMMENT_POST' %}
+                                            <a href="{% url 'edit_like_comment_post' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+                                          {% if x.job_type == 'HASHTAG_FOLLOW' %}
+                                            <a href="{% url 'edit_hashtags_follow' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+                                          {% if x.job_type == 'LIKE_CMNT_FOL_POST' %}
+                                            <a href="{% url 'edit_like_comment_followings' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+                                          {% if x.job_type == 'POST_STORY' %}
+                                            <a href="{% url 'edit_create_story' x.id %}"><i class="fas fa-edit text-primary mx-2"></i></a>
+                                          {% endif %}
+                                          <a type="button" job_id="{{x.id}}" class="delete_job" data-toggle="modal" data-target="#delete_job"><i class="far fa-trash-alt text-danger mx-2"></i></a>
+                                        
+                                       </span>
+                                       {% endif %}
+                                    </div>
+                                 </div>
+                           </div>
+                            {% endfor %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div id="ascrail2000" class="nicescroll-rails nicescroll-rails-vr" style="width: 5px; z-index: auto; cursor: default; position: absolute; top: 0px; left: 681px; height: 522px; display: block; opacity: 0;">
+   <div class="nicescroll-cursors" style="position: relative; top: 3px; float: right; width: 5px; height: 471px; background-color: rgb(215, 215, 215); border: none; background-clip: padding-box; border-radius: 0px;"></div>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="delete_job" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center" style="font-size:20px;">
+        Do you want to delete this Job?
+      </div>
+       <div class="modal-footer">
+         <a href="#" class="delete_job_link btn btn-outline-danger">Yes</a>
+         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No</button>
+       </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(function(){
+      $('#useraccount_select').on('change', function (e) {
+
+          var url = "/advance/dashboard/log/" + $(this).val();
+
+          if (url) {
+              window.location = url; 
+          }
+          return false;
+      });
+    });
+
+    $(document).ready(function(){
+      $('.delete_job').click(function(){
+         var job_id = $(this).attr('job_id');
+         var url = "/advance/dashboard/log/delete_job/{{insta_account.id}}/" + job_id + "/"
+         $(".delete_job_link").attr('href', url);
+      });
+    });
+</script>
+{% endblock %}

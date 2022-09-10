@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff700"/>
+      <stop offset="1" stop-color="#ffa200"/>
+    </linearGradient>
+    <clipPath id="clip-caption_1">
+      <rect width="80" height="80"/>
+    </clipPath>
+  </defs>
+  <g id="caption_1" data-name="caption – 1" clip-path="url(#clip-caption_1)">
+    <path id="Union_4" data-name="Union 4" d="M-4779-2093a10.01,10.01,0,0,1-10-10v-53a10.011,10.011,0,0,1,10-10h59a10.011,10.011,0,0,1,10,10v53a10.01,10.01,0,0,1-10,10Zm-8-61v49a10.011,10.011,0,0,0,10,10h55a10.012,10.012,0,0,0,10-10v-49a10.013,10.013,0,0,0-10-10h-55A10.012,10.012,0,0,0-4787-2154Zm8,40a5,5,0,0,1,5-5,5,5,0,0,1,5,5,5,5,0,0,1-5,5A5,5,0,0,1-4779-2114Zm23,2v-4h37v4Zm-23-17.5a4.771,4.771,0,0,1,5-4.5,4.771,4.771,0,0,1,5,4.5,4.771,4.771,0,0,1-5,4.5A4.771,4.771,0,0,1-4779-2129.5Zm23,2.5v-5h37v5Zm-23-18a5,5,0,0,1,5-5,5,5,0,0,1,5,5,5,5,0,0,1-5,5A5,5,0,0,1-4779-2145Zm23,2v-4h37v4Z" transform="translate(4790 2170)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

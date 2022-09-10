@@ -1,0 +1,22 @@
+{% load static i18n %}
+<div class="ig-ac-settings">
+    <div class="ig-ac-header">
+       <div class="top wrap-m">
+          <div class="menu wrap-c ml-auto">
+             <ul>
+                {% comment %}
+                <li class=""><a href="{% url 'settings' %}"><i class="fas fa-cog"></i> {% trans 'settings'%}</a></li>
+                <li class=""><a href="{% url 'profile' %}"><i class="fas fa-user"></i> {% trans 'profile'%}</a></li>
+                {% endcomment %}
+                <li class=""><a id="user_stats"><i class="far fa-chart-bar"></i> {% trans 'stats' %} </a></li>
+                <li class=""><a id="user_logs"><i class="fas fa-history"></i> {% trans 'log' %} </a></li>
+             </ul>
+             <div class="clearfix"></div>
+          </div>
+       </div>
+    </div>
+ </div>
+ <script type="text/javascript">
+   document.getElementById("user_stats").href = "/advance/dashboard/stats/" + sessionStorage.getItem("SelItem");
+   document.getElementById("user_logs").href = "/advance/dashboard/log/" + sessionStorage.getItem("SelItem");
+ </script>

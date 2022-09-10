@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <clipPath id="clip-caption">
+      <rect width="80" height="80"/>
+    </clipPath>
+  </defs>
+  <g id="caption" clip-path="url(#clip-caption)">
+    <g id="caption-2" data-name="caption" transform="translate(-1303 -68.644)">
+      <g id="Rectangle_1" data-name="Rectangle 1" transform="translate(1304 72.644)" fill="none" stroke="#fff" stroke-width="2">
+        <rect width="79" height="73" rx="10" stroke="none"/>
+        <rect x="1" y="1" width="77" height="71" rx="9" fill="none"/>
+      </g>
+      <g id="Group_4" data-name="Group 4" transform="translate(1314 88.644)">
+        <g id="Group_3" data-name="Group 3" transform="translate(0 0)">
+          <circle id="Ellipse_1" data-name="Ellipse 1" cx="5" cy="5" r="5" transform="translate(0 0)" fill="#fff"/>
+          <rect id="Rectangle_2" data-name="Rectangle 2" width="37" height="4" transform="translate(23 3)" fill="#fff"/>
+        </g>
+        <g id="Group_3-2" data-name="Group 3" transform="translate(0 16)">
+          <ellipse id="Ellipse_1-2" data-name="Ellipse 1" cx="5" cy="4.5" rx="5" ry="4.5" transform="translate(0 0)" fill="#fff"/>
+          <rect id="Rectangle_2-2" data-name="Rectangle 2" width="37" height="5" transform="translate(23 2)" fill="#fff"/>
+        </g>
+        <g id="Group_3-3" data-name="Group 3" transform="translate(0 31)">
+          <circle id="Ellipse_1-3" data-name="Ellipse 1" cx="5" cy="5" r="5" transform="translate(0 0)" fill="#fff"/>
+          <rect id="Rectangle_2-3" data-name="Rectangle 2" width="37" height="4" transform="translate(23 3)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,234 @@
+/*FONTS*/
+@import url('reset.css');
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800|Poppins:300,400,600,900&display=swap');
+
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(31, 45, 61, 0);
+}
+
+body {
+    margin: 0;
+    font-family: "Poppins", "Open Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #6c6c6c;
+    text-align: left;
+    background-color: #FFF;
+}
+
+.bg{
+    background: #5d78ff;
+    height: 330px;
+    position: absolute;
+    width: 100%;
+}
+
+.wrapper{
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+    padding: 70px 25px 0;
+}
+
+.wrapper .header{
+    text-align: center;
+    color: #fff;
+    z-index: 10;
+}
+
+.wrapper .header .lable{
+    text-transform: uppercase;
+    font-size: 16px;
+}
+.wrapper .header .title{
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.wrapper .header .desc{}
+
+.wrapper .payment-info{
+    background: #fff;
+    border-radius: 6px;
+    margin-top: 30px;
+    z-index: 100;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 35px rgba(140, 152, 164, 0.125) !important;
+}
+
+.wrapper .payment-info .payment-change .name{
+    position: relative;
+    top: -19px;
+}
+
+.wrapper .payment-info .payment-change .i-switch.i-switch--outline.i-switch--info input:empty ~ span:before {
+    border: 2px solid #dee3eb;
+    background: #fff;
+}
+
+.wrapper .payment-info .payment-change .i-switch.i-switch--outline.i-switch--info input:empty ~ span:after {
+    background: #5578eb;
+}
+
+.wrapper .payment-info .desc{
+    font-weight: bold;
+}
+.wrapper .payment-info .price{
+    font-weight: bold;
+    font-size: 50px;
+}
+.wrapper .payment-info .date,
+.wrapper .payment-info .time{
+
+}
+.wrapper .payment-info .date .text,
+.wrapper .payment-info .time .text
+{ text-transform: uppercase; }
+.wrapper .payment-info .date .value,
+.wrapper .payment-info .time .value{
+
+}
+
+.wrapper .payment-method{
+    margin-top: 25px;
+}
+
+.wrapper .payment-method .headline{
+    margin-top: 8px;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.wrapper .payment-method .payment-method-item{
+    padding: 20px;
+    min-height: 90px;
+    display: block;
+    border-radius: 6px;
+    position: relative;
+    box-shadow: 0 0 35px rgba(140, 152, 164, 0.125) !important;
+    margin-bottom: 20px;
+}
+
+.wrapper .payment-method .payment-method-item .payment-logo{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+}
+
+.wrapper .payment-method .payment-method-item .payment-logo img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    border: 1px solid #f4f4f4;
+    padding: 2px;
+}
+
+.wrapper .payment-method .payment-method-item .payment-detail{
+    position: relative;
+    left: 75px;
+    color: #6c6c6c;
+}
+
+.wrapper .payment-method .payment-method-item .payment-detail .title{
+    font-weight: bold;
+    margin-top: 2px;
+}
+
+.wrapper .payment-method .payment-method-item .payment-detail .desc{
+    opacity: 0.7;
+}
+
+.wrapper .payment-method .payment-method-item .payment-go{
+    position: absolute;
+    opacity: 0.5;
+    right: 20px;
+    top: 30px;
+    font-size: 20px;
+}
+
+
+.wrapper .payment-coupon{
+    background: #fff;
+    border-radius: 6px;
+    margin-top: 30px;
+    z-index: 100;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 35px rgba(140, 152, 164, 0.125) !important;
+}
+.credit-form__ {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+}
+
+.credit-form__ .form-control{
+    position: relative;
+    width: 100%;
+    height: 44px;
+    padding: 8px 12px;
+    color: rgba(26,26,26,.9);
+    font-size: 16px;
+    line-height: 1.5;
+    border: 0;
+    box-shadow: 0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05);
+    transition: box-shadow .08s ease-in,color .08s ease-in,-webkit-filter 50000s;
+    transition: box-shadow .08s ease-in,color .08s ease-in,filter 50000s;
+    transition: box-shadow .08s ease-in,color .08s ease-in,filter 50000s,-webkit-filter 50000s;
+    background: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.credit-form__ textarea.form-control{
+    height: 100px;
+}
+.credit-form__ .form-control:focus{
+    z-index: 2;
+    outline: none;
+    box-shadow: 0 0 0 1px rgba(50,151,211,.3), 0 1px 1px 0 rgba(0,0,0,.07), 0 0 0 4px rgba(50,151,211,.3);
+}
+.credit-form__ label {
+ 
+    margin-bottom: 2px;
+}
+.cc-cvc-wrap {
+    display: flex;
+}
+
+.cc-cvc-wrap .cc-cvc.width50 {
+    flex-basis: 50%;
+    max-width: 50%;
+    width: 50%;
+}
+
+.cc-cvc-wrap .cc-cvc.width50:first-child input {
+    border-radius: 0 0 0px 6px;
+}
+
+.cc-cvc-wrap .cc-cvc.width50:last-child input {
+    border-radius: 0 0 6px 0px;
+}
+.btn-payment{
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+.error{
+    color: red;
+    font-size: 16px;
+}

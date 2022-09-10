@@ -1,0 +1,121 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static i18n %}
+{% block title %} Account manager {% endblock %}
+
+{% block style %}
+
+<style>
+    #show_Otp{
+        //position: absolute;
+        //padding-top: 8px;
+        //top: 15px;
+        //right: 35%;
+        margin-top: -20px;
+        margin-left: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+   <div class="subheader account-manager">
+      <div class="wrap">
+         <div class="subheader-main">
+            <button class="btn btn-label-info m-r-10 subheader-toggle"><i class="fas fa-bars"></i></button>
+            <h3 class="title"><i class="text-info far fa-user-circle"></i> {% trans 'accountManager' %}</h3>
+         </div>
+      </div>
+   </div>
+   <div class="content-two-column account-manager">
+      <div class="column-one nicescroll">
+         <a href="{% url 'add_instagram_account' %}" class="btn btn-social btn-block text-left"><i class="fab fa-instagram" style="color: #d62976"></i> {% trans 'addInstagramProfile'	%}</a>
+      </div>
+      <div class="column-two nicescroll">
+         <div class="row">
+            <div class="col-md-12 col-sm-6">
+               <div class="card m-b-30">
+                  <div class="card-header wrap-m">
+                     <div class="card-title wrap-c m-b-0"><i class="fab fa-instagram p-r-5" style="color: #d62976"></i>{% trans 'Instagram profiles | Total accounts:'	%}<strong class="mx-2">{{user.useraccount_set.count}}</strong></div>
+                  </div>
+                  <div class="card-body widget-list nicescroll p-0 no-update">
+                      {% for insta_account in user.useraccount_set.all %}
+                     <div class="widget-item widget-item-3 search-item line padding">
+
+                         <div class="icon">
+                               <i class="fa fa-user"></i>
+                           </div>
+
+                           <div class="row content content">
+                              <a href="https://instagram.com/{{ insta_account.account_username }}" target="_blank">
+
+                                  <div class="title fw-4 d-inline-block">{{ insta_account.account_username }}
+                                    {% if insta_account.login_status == 'IN' %} <span class="badge mx-3 badge-success"> <strong> {% trans 'loggedIn' %} </strong> </span>
+                                    {% elif insta_account.login_status == 'OUT' %}  <span class="badge mx-3 badge-danger"><strong> {% trans 'loggedOut' %} </strong> </span> | {{insta_account.job_set.last.data.failure_reason}}
+                                    {% elif insta_account.login_status == 'F' %} <span class="badge mx-3 badge-danger"><strong> {% trans 'failed' %} </strong> </span>
+                                    {% elif insta_account.login_status == 'O' %} <span class="badge mx-3 badge-warning"><strong> {% trans 'otpRequired' %} </strong> </span>
+                                    {% elif insta_account.login_status == 'P' %} <span class="badge mx-3 badge-warning"><strong> {% trans 'pending' %} </strong> </span> {% endif %}
+                                    {% if insta_account.account_from == "CO" %}
+                                        Bot
+                                     {% endif %}
+                                  </div>
+                                </a>
+
+                                {% if insta_account.login_status == 'O' %}
+                                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#otpModal{{insta_account.id}}">Enter Otp</button>
+                                  {% elif insta_account.login_status == 'F' %}
+                                    <span class="mt-1" style="color: red;">{{insta_account.data.err_msg}}</span>
+                                {% endif %}
+
+                               <!-- OTP ENTER MODAL -->
+                                <div class="modal fade" id="otpModal{{insta_account.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Enter Otp</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <form action="{% url 'insert_otp' %}" method="post" style="top: 100px;">
+                                          {% csrf_token %}
+                                          <input type="text" name="otp" placeholder="{% trans 'writeOTPhere' %}" class="form-control" required="True">
+                                          <br>
+                                             <input type="hidden" name="user_id" value="{{insta_account.id}}" />
+                                             <input type="hidden" name="action" value="enter_otp" />
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary Connect-btn">{% trans 'Submit' %}</button>
+                                            </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- OTP ENTER MODAL -->
+
+                           </div>
+                        <div class="widget-option">
+                           <div class="dropdown">
+                              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                              <i class="ft-more-vertical"></i>
+                              </button>
+                              <ul class="dropdown-menu dropdown-menu-right dropdown-menu-fit dropdown-menu-anim dropdown-menu-top-unround">
+                                 <li><a href="{% url 'delete_instagram_account' insta_account.id %}"><i class="far fa-trash-alt"></i> {% trans 'delete' %}</a></li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                      {% endfor %}
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<form method="post" action="{% url 'dashboard' %}" id="myFormasd">
+  {% csrf_token %}
+  <input type="hidden" id="insta_user_id" name="insta_user_id">
+</form>
+{% endblock %}

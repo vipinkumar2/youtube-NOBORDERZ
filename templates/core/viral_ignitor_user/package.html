@@ -1,0 +1,28 @@
+{% extends 'core/viral_ignitor_user/base.html' %}
+{% load static i18n dashboard_extras %}
+{% block user_account %}
+<div class="column-two nicescroll">
+   <div class="row">
+      <div class="col-md-6">
+         <div class="card m-b-15">
+            <div class="card-header">
+               <div class="card-title"><i class="fas fa-cubes text-info"></i> {% trans 'packageHeading' %}</div>
+            </div>
+            <div class="card-body p-0">
+               <ul class="list-group list-group-flush">
+                  <li class="list-group-item wrap-m">
+                     <div class="wrap-c">{% trans 'yourPackage' %}</div>
+                     <div class="wrap-c fw-6 text-info">{% if active_subscription.name %}{{active_subscription.name}}{%else%}{% trans 'free' %}{%endif%}</div>
+                  </li>
+                  <li class="list-group-item wrap-m">
+                     <div class="wrap-c">{% trans 'expireDate' %}</div>
+                     <div class="wrap-c fw-6 text-info">{{ user|subscription_expire_date:user }}</div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+         <a href="{% url 'pricing' %}" class="btn btn-info">{% trans 'renewAccount' %}</a>
+      </div>
+   </div>
+</div>
+{% endblock %}

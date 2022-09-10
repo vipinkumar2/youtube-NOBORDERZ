@@ -1,0 +1,410 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static i18n %}
+{% block title %} Dashboard {% endblock %}
+{% block content %}
+<script src="{% static 'js/core_post.js' %}"></script>
+<div class="wrapper">
+   <div class="subheader schedules">
+      <div class="wrap">
+         <div class="subheader-main">
+            <button class="btn btn-label-info m-r-10 subheader-toggle"><i class="fas fa-bars"></i></button>
+            <h3 class="title"><i class="far fa-calendar-alt text-info"></i> {% trans 'schedules' %}</h3>
+            <button class="btn btn-label-info subheader-right-toggle"><i class="fas fa-chevron-left"></i></button>
+         </div>
+      </div>
+   </div>
+   <div class="content-three-column schedules">
+      <div class="column-one nicescroll" tabindex="1" style="overflow-y: hidden; outline: none;">
+         <div class="input-group box-search-one">
+            <input class="form-control search-input" type="text" autocomplete="off" placeholder="{% trans 'search' %}">
+            <span class="input-group-append">
+            <button class="btn" type="button">
+            <i class="fa fa-search"></i>
+            </button>
+            </span>
+         </div>
+         <div class="widget-list widget-solid schedules-type">
+            <div class="widget-item widget-item-2 search-item active" data-time="" data-type="queue" data-category="all">
+               <a href="https://app.viralignitor.com/schedules/index/queue/all/">
+                  <div class="icon"><i class="fas fa-circle-notch fa-spin"></i></div>
+                  <div class="content content-1">
+                     <div class="title fw-5">{% trans 'queue' %}</div>
+                  </div>
+               </a>
+            </div>
+            <div class="widget-item widget-item-2 search-item " data-time="" data-type="published" data-category="all">
+               <a href="https://app.viralignitor.com/schedules/index/published/all/">
+                  <div class="icon"><i class="fas fa-check-double"></i></div>
+                  <div class="content content-1">
+                     <div class="title fw-5">{% trans 'published' %}</div>
+                  </div>
+               </a>
+            </div>
+            <div class="widget-item widget-item-2 search-item " data-time="" data-type="unpublished" data-category="all">
+               <a href="https://app.viralignitor.com/schedules/index/unpublished/all/">
+                  <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
+                  <div class="content content-1">
+                     <div class="title fw-5">{% trans 'unpublished' %}</div>
+                  </div>
+               </a>
+            </div>
+         </div>
+         <div class="sub-sidebar-headline fs-14 fw-6 m-t-20 text-info m-b-10">
+            <i class="fas fa-filter"></i> <span class="text-uppercase">{% trans 'schedulesOf' %}</span>
+         </div>
+         <div class="widget schedules-of">
+            <div class="widget-list search-list">
+               <div class="widget-item widget-item-3 search-list">
+                  <a href="#">
+                     <div class="icon border">
+                        <i class="fas fa-share-alt-square"></i>
+                     </div>
+                     <div class="content content-1">
+                        <div class="title fw-4">{% trans 'allSchedules' %}</div>
+                     </div>
+                  </a>
+                  <div class="widget-option">
+                     <label class="i-radio i-radio--tick i-radio--brand">
+                     <input type="radio" name="module" class="check-item" checked="" value="all">
+                     <span></span>
+                     </label>
+                  </div>
+               </div>
+               <div class="widget-item widget-item-3 search-list">
+                  <a href="#">
+                     <div class="icon border">
+                        <i class="fab fa-instagram" style="color: #d62976"></i>
+                     </div>
+                     <div class="content content-1">
+                        <div class="title fw-4">{% trans 'instagramPost' %}</div>
+                     </div>
+                  </a>
+                  <div class="widget-option">
+                     <label class="i-radio i-radio--tick i-radio--brand">
+                     <input type="radio" name="module" class="check-item" value="instagram_post">
+                     <span></span>
+                     </label>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <form action="https://app.viralignitor.com/schedules/delete/multi" class="actionForm" data-redirect="" data-confirm="Are you sure to delete this items?">
+            <div class="sub-sidebar-headline fs-14 fw-6 m-t-20 text-info m-b-10">
+               <i class="far fa-trash-alt"></i> <span class="text-uppercase">{% trans 'deleteSchedules' %}</span>
+            </div>
+            <div class="card border-0 b-r-4">
+               <div class="card-body bg-solid-info b-r-4">
+                  <div class="m-b-0">
+                     <label class="i-radio i-radio--brand">
+                     {% trans 'queue' %} <input type="radio" name="type" checked="" value="queue">
+                     <span></span>
+                     </label>
+                  </div>
+                  <div class="m-b-0">
+                     <label class="i-radio i-radio--brand">
+                     {% trans 'published' %} <input type="radio" name="type" value="published">
+                     <span></span>
+                     </label>
+                  </div>
+                  <div class="m-b-0">
+                     <label class="i-radio i-radio--brand">
+                     {% trans 'unpublished' %} <input type="radio" name="type" value="unpublished">
+                     <span></span>
+                     </label>
+                  </div>
+                  <div class="form-group">
+                     <label>{% trans 'category' %}</label>
+                     <select class="form-control" name="category">
+                        <option value="all"> {% trans 'all' %} </option>
+                        <option value="instagram_post"> {% trans 'instagramPost' %} </option>
+                     </select>
+                  </div>
+                  <button type="submit" class="btn btn-danger btn-block">{% trans 'delete' %}</button>
+               </div>
+            </div>
+         </form>
+      </div>
+      <div class="comlumn-three-main">
+         <div class="column-two nicescroll" tabindex="2" style="overflow-y: hidden; outline: none;">
+            <div class="row lg">
+               <div class="calendar monthly-locale-en monthly-locale-en-gb" id="schedule-calendar" data-result="html" data-content="column-three">
+                  <div class="monthly-header">
+                     <div class="monthly-header-title"><a href="#" class="monthly-header-title-date" onclick="return false">{% trans 'oct' %} 2020</a></div>
+                     <a href="#" class="monthly-prev"></a><a href="#" class="monthly-next"></a>
+                  </div>
+                  <div class="monthly-day-title-wrap">
+                     <div>{% trans 'sun' %}</div>
+                     <div>{% trans 'Mon' %}</div>
+                     <div>{% trans 'tue' %}</div>
+                     <div>{% trans 'wed' %}</div>
+                     <div>{% trans 'thu' %}</div>
+                     <div>{% trans 'fri' %}</div>
+                     <div>{% trans 'sat' %}</div>
+                  </div>
+                  <div class="monthly-day-wrap">
+                     <div class="monthly-week">
+                        <div class="m-d monthly-day-blank">
+                           <div class="monthly-day-number"></div>
+                        </div>
+                        <div class="m-d monthly-day-blank">
+                           <div class="monthly-day-number"></div>
+                        </div>
+                        <div class="m-d monthly-day-blank">
+                           <div class="monthly-day-number"></div>
+                        </div>
+                        <div class="m-d monthly-day-blank">
+                           <div class="monthly-day-number"></div>
+                        </div>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-09-30" data-number="1" data-time="2020-10-01">
+                           <div class="monthly-day-number">1</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-01" data-number="2" data-time="2020-10-02">
+                           <div class="monthly-day-number">2</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-02" data-number="3" data-time="2020-10-03">
+                           <div class="monthly-day-number">3</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                     </div>
+                     <div class="monthly-week">
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-03" data-number="4" data-time="2020-10-04">
+                           <div class="monthly-day-number">4</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-04" data-number="5" data-time="2020-10-05">
+                           <div class="monthly-day-number">5</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-05" data-number="6" data-time="2020-10-06">
+                           <div class="monthly-day-number">6</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-06" data-number="7" data-time="2020-10-07">
+                           <div class="monthly-day-number">7</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-07" data-number="8" data-time="2020-10-08">
+                           <div class="monthly-day-number">8</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-08" data-number="9" data-time="2020-10-09">
+                           <div class="monthly-day-number">9</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-09" data-number="10" data-time="2020-10-10">
+                           <div class="monthly-day-number">10</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                     </div>
+                     <div class="monthly-week">
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-10" data-number="11" data-time="2020-10-11">
+                           <div class="monthly-day-number">11</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-11" data-number="12" data-time="2020-10-12">
+                           <div class="monthly-day-number">12</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-12" data-number="13" data-time="2020-10-13">
+                           <div class="monthly-day-number">13</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-13 monthly-today" data-number="14" data-time="2020-10-14">
+                           <div class="monthly-day-number">14</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-14" data-number="15" data-time="2020-10-15">
+                           <div class="monthly-day-number">15</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-15" data-number="16" data-time="2020-10-16">
+                           <div class="monthly-day-number">16</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-16" data-number="17" data-time="2020-10-17">
+                           <div class="monthly-day-number">17</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                     </div>
+                     <div class="monthly-week">
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-17" data-number="18" data-time="2020-10-18">
+                           <div class="monthly-day-number">18</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-18" data-number="19" data-time="2020-10-19">
+                           <div class="monthly-day-number">19</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-19" data-number="20" data-time="2020-10-20">
+                           <div class="monthly-day-number">20</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-20" data-number="21" data-time="2020-10-21">
+                           <div class="monthly-day-number">21</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-21" data-number="22" data-time="2020-10-22">
+                           <div class="monthly-day-number">22</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-22" data-number="23" data-time="2020-10-23">
+                           <div class="monthly-day-number">23</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-23" data-number="24" data-time="2020-10-24">
+                           <div class="monthly-day-number">24</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                     </div>
+                     <div class="monthly-week">
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-24" data-number="25" data-time="2020-10-25">
+                           <div class="monthly-day-number">25</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-25" data-number="26" data-time="2020-10-26">
+                           <div class="monthly-day-number">26</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-26" data-number="27" data-time="2020-10-27">
+                           <div class="monthly-day-number">27</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-27" data-number="28" data-time="2020-10-28">
+                           <div class="monthly-day-number">28</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-28" data-number="29" data-time="2020-10-29">
+                           <div class="monthly-day-number">29</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-29" data-number="30" data-time="2020-10-30">
+                           <div class="monthly-day-number">30</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                        <a href="javascript:void(0);" class="m-d monthly-day monthly-day-event dt2020-10-30" data-number="31" data-time="2020-10-31">
+                           <div class="monthly-day-number">31</div>
+                           <div class="monthly-indicator-wrap"></div>
+                        </a>
+                     </div>
+                  </div>
+                  <div class="monthly-event-list" style="display: none;">
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday1" data-number="1" data-time="1601490600">
+                        <div class="monthly-event-list-date">{% trans 'thu' %}<br>1</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday2" data-number="2" data-time="1601577000">
+                        <div class="monthly-event-list-date">{% trans 'fri' %}<br>2</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday3" data-number="3" data-time="1601663400">
+                        <div class="monthly-event-list-date">{% trans 'sat' %}<br>3</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday4" data-number="4" data-time="1601749800">
+                        <div class="monthly-event-list-date">{% trans 'sun' %}<br>4</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday5" data-number="5" data-time="1601836200">
+                        <div class="monthly-event-list-date">{% trans 'Mon' %}<br>5</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday6" data-number="6" data-time="1601922600">
+                        <div class="monthly-event-list-date">{% trans 'tue' %}<br>6</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday7" data-number="7" data-time="1602009000">
+                        <div class="monthly-event-list-date">{% trans 'wed'%}<br>7</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday8" data-number="8" data-time="1602095400">
+                        <div class="monthly-event-list-date">{% trans 'thu' %}<br>8</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday9" data-number="9" data-time="1602181800">
+                        <div class="monthly-event-list-date">{% trans 'fri' %}<br>9</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday10" data-number="10" data-time="1602268200">
+                        <div class="monthly-event-list-date">{% trans 'sat' %}<br>10</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday11" data-number="11" data-time="1602354600">
+                        <div class="monthly-event-list-date">{% trans 'sun'%}<br>11</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday12" data-number="12" data-time="1602441000">
+                        <div class="monthly-event-list-date">{% trans 'Mon' %}<br>12</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday13" data-number="13" data-time="1602527400">
+                        <div class="monthly-event-list-date">{% trans 'tue' %}<br>13</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item monthly-today" id="schedule-calendarday14" data-number="14" data-time="1602613800">
+                        <div class="monthly-event-list-date">{% trans 'wed' %}<br>14</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday15" data-number="15" data-time="1602700200">
+                        <div class="monthly-event-list-date">{% trans 'thu' %}<br>15</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday16" data-number="16" data-time="1602786600">
+                        <div class="monthly-event-list-date">{% trans 'fri' %}<br>16</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday17" data-number="17" data-time="1602873000">
+                        <div class="monthly-event-list-date">{% trans 'sat' %}<br>17</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday18" data-number="18" data-time="1602959400">
+                        <div class="monthly-event-list-date">{% trans 'sun' %}<br>18</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday19" data-number="19" data-time="1603045800">
+                        <div class="monthly-event-list-date">{% trans 'Mon' %}<br>19</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday20" data-number="20" data-time="1603132200">
+                        <div class="monthly-event-list-date">{% trans 'tue' %}<br>20</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday21" data-number="21" data-time="1603218600">
+                        <div class="monthly-event-list-date">{% trans 'wed' %}<br>21</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday22" data-number="22" data-time="1603305000">
+                        <div class="monthly-event-list-date">{% trans 'thu' %}<br>22</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday23" data-number="23" data-time="1603391400">
+                        <div class="monthly-event-list-date">{% trans 'fri' %}<br>23</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday24" data-number="24" data-time="1603477800">
+                        <div class="monthly-event-list-date">{% trans 'sat' %}<br>24</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday25" data-number="25" data-time="1603564200">
+                        <div class="monthly-event-list-date">{% trans 'sun' %}<br>25</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday26" data-number="26" data-time="1603650600">
+                        <div class="monthly-event-list-date">{% trans  'Mon' %}<br>26</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday27" data-number="27" data-time="1603737000">
+                        <div class="monthly-event-list-date">{% trans 'tue' %}<br>27</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday28" data-number="28" data-time="1603823400">
+                        <div class="monthly-event-list-date">{% trans 'wed' %}<br>28</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday29" data-number="29" data-time="1603909800">
+                        <div class="monthly-event-list-date">{% trans 'thu' %}<br>29</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday30" data-number="30" data-time="1603996200">
+                        <div class="monthly-event-list-date">{% trans 'fri' %}<br>30</div>
+                     </a>
+                     <a href="javascript:void(0);" class="monthly-list-item" id="schedule-calendarday31" data-number="31" data-time="1604082600">
+                        <div class="monthly-event-list-date">{% trans 'sat' %}<br>31</div>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="column-three nicescroll" tabindex="3" style="overflow-y: hidden; outline: none;">
+            <div class="wrap-m h-100">
+               <div class="empty">
+                  <!-- <div class="icon"></div> -->
+                  <a class="btn btn-info" href="https://app.viralignitor.com/post"><i class="far fa-plus-square"></i> {% trans 'addPost' %}</a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="ascrail2000" class="nicescroll-rails nicescroll-rails-vr" style="width: 5px; z-index: auto; cursor: default; position: absolute; top: 0px; left: 269px; height: 50px; display: block; opacity: 0;">
+      <div class="nicescroll-cursors" style="position: relative; top: 0px; float: right; width: 5px; height: 32px; background-color: rgb(215, 215, 215); border: none; background-clip: padding-box; border-radius: 0px;"></div>
+   </div>
+   <div id="ascrail2001" class="nicescroll-rails nicescroll-rails-vr" style="width: 5px; z-index: auto; cursor: default; position: absolute; top: 0px; left: 746px; height: 50px; display: block; opacity: 0;">
+      <div class="nicescroll-cursors" style="position: relative; top: 0px; float: right; width: 5px; height: 0px; background-color: rgb(215, 215, 215); border: none; background-clip: padding-box; border-radius: 0px;"></div>
+   </div>
+   <div id="ascrail2002" class="nicescroll-rails nicescroll-rails-vr" style="width: 5px; z-index: auto; cursor: default; position: absolute; top: 0px; left: 1224px; height: 50px; display: block; opacity: 0;">
+      <div class="nicescroll-cursors" style="position: relative; top: 0px; float: right; width: 5px; height: 32px; background-color: rgb(215, 215, 215); border: none; background-clip: padding-box; border-radius: 0px;"></div>
+   </div>
+</div>
+{% endblock %}

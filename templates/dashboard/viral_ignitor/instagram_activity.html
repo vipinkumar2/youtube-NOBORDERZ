@@ -1,0 +1,409 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static i18n %}
+{% block title %} Instagram Activity {% endblock %}
+{% block style %}
+<style>
+   .activity_card{
+      border: 1px solid #afafaf;
+      border-radius: 4px;
+   }
+
+   div.date_box {
+      max-width: 50px;
+      font-size: 9px;
+      font-weight: bold;
+      text-align: center;
+      border-right: 1px solid #afafaf;
+      padding: 0 5px 0 0;
+      text-transform: capitalize;
+   }
+
+   span.activity_date {
+       font-size: 25px;
+   }
+
+   .fs_20{
+      font-size: 20px;
+   }
+</style>
+
+<script>
+   FORMAT_DATE = "mm/dd/yy"
+</script>
+<script src="{% static 'js/core.js' %}"></script>
+{% endblock %}
+{% block content %}
+
+
+<div class="wrapper">
+   <div class="subheader instagram-activity">
+      <div class="wrap">
+         <div class="subheader-main wrap-m w-100 p-r-0">
+            <div class="wrap-c">
+               <h3 class="title"><i class="fab fa-instagram" style="color: #d62976"></i> {% trans 'instagramActivity' %}</h3>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="content-two-column content-two-column-right instagram-activity">
+      <div class="column-one nicescroll">
+         <form action="#">
+            <div class="fm-filter">
+               <div class="input-group box-search-one">
+                  <input class="form-control search-input" name="k" type="text" autocomplete="off" placeholder="{% trans 'search' %}" value="">
+                  <span class="input-group-append">
+                  <button class="btn" type="button">
+                  <i class="fa fa-search"></i>
+                  </button>
+                  </span>
+               </div>
+               <div class="form-group">
+                  <label>{% trans 'sortBy' %}</label>
+                  <select id="sort_by" class="form-control activityFilterAction" name="s">
+                     <option value="">-</option>
+                     <option value="title"  >{% trans 'title' %}</option>
+                     <option value="time"  >{% trans 'scheduledTime' %}</option>
+                  </select>
+               </div>
+               <div class="form-group">
+                  <label>{% trans 'filter' %}</label>
+                  <select id="filter_status" class="form-control activityFilterAction"  name="f">
+                     <option value="">-</option>
+                     <option value="C"  >{% trans 'completed' %}</option>
+                     <option value="F"  >{% trans 'failed' %}</option>
+                     <option value="P"  >{% trans 'pending' %}</option>
+                  </select>
+               </div>
+               <div class="form-group">
+                   <label>{% trans 'dateText' %}</label>
+                  <input type="text" class="date form-control">
+               </div>
+            </div>
+         </form>
+         <button id="reset_form" class="btn btn-primary">{% trans 'reset' %}</button>
+
+      </div>
+      <div class="column-two nicescroll">
+         <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 m-b-25">
+               <div class="ig-ac-basic-info">
+                  <div class="info">
+                     <div class="avatar"><img src="{% static 'img/favicon.png' %}"></div>
+                     <div class="detail">
+                        <div class="account_username title">{{insta_account.account_username}}</div>
+                        <div class="desc">{% trans 'profile' %}</div>
+                     </div>
+                     <div class="icon">
+                        <i class="fab fa-instagram"></i>
+                     </div>
+                  </div>
+                  <div class="status wrap-m">
+                     <div class="wrap-c">{% trans 'status' %}</div>
+                     <div class="wrap-c">
+                        <span class="ig-ac-status started badge badge-success d-none">{% trans 'started' %}</span>
+                        <span class="ig-ac-status stopped badge badge-danger d-none">{% trans 'stopped' %}</span>
+                        <span class="ig-ac-status none badge badge-dark d-none">{% trans 'noTime' %}</span>
+                     </div>
+                  </div>
+                  <div class="stats">
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'likes' %}
+                        </div>
+                        <div class="wrap-c postImage"><span class="badge badge-dark">{{likes}}</span></div>
+                     </div>
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'follows' %}
+                        </div>
+                        <div class="wrap-c postImage"><span class="badge badge-dark">{{follows}}</span></div>
+                     </div>
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'unfollows' %}
+                        </div>
+                        <div class="wrap-c postImage"><span class="badge badge-dark">{{unfollows}}</span></div>
+                     </div>
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'postImage' %}
+                        </div>
+                        <div class="wrap-c postImage"><span class="badge badge-dark">{{total_post_image_jobs}}</span></div>
+                     </div>
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'hashtagsLike' %}
+                        </div>
+                        <div class="wrap-c hashtagsLike"><span class="badge badge-dark">{{total_hashtag_likes}}</span></div>
+                     </div>
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'hashtagsFollow' %}
+                        </div>
+                        <div class="wrap-c hashtagsFollow"><span class="badge badge-dark">{{total_hashtag_follows}}</span></div>
+                     </div>
+
+                     {% comment %}
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'comments' %}
+                        </div>
+                        <div class="wrap-c comments"><span class="badge badge-dark">0</span></div>
+                     </div>
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'watchingStories' %}
+                        </div>
+                        <div class="wrap-c watching_stories"><span class="badge badge-dark">0</span></div>
+                     </div>
+
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'directMessages' %}
+                        </div>
+                        <div class="wrap-c directMessages"><span class="badge badge-dark">0</span></div>
+                     </div>
+                     <div class="stats-item wrap-m">
+                        <div class="wrap-c">
+                           {% trans 'repostMedias' %}
+                        </div>
+                        <div class="wrap-c repostMedias"><span class="badge badge-dark">0</span></div>
+                     </div>
+                     {% endcomment %}
+
+                  </div>
+                  <div class="action">
+                     <div class="btn-group btn-group-block" role="group">
+                        <button class="btn btn-secondary ig-ac-btn ig-ac-btn-start d-none">{% trans 'start' %}</button>
+                        <button class="btn btn-label-danger ig-ac-btn ig-ac-btn-stop d-none">{% trans 'stop' %}</button>
+                        <a href="{% url 'settings' %}" class="btn btn-secondary">{% trans 'settings' %}</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-9">
+               <div class="activity_exception text-center d-none"><strong>{% trans 'activitiesNotFound' %}</strong></div>
+               <div class="activity_wr">
+
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<input type="hidden" id="insta_user_id" name="insta_user_id">
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function(){
+   $('.account_username').empty();
+   $('.account_username').text($("#useraccount_select option:selected").text());
+});
+
+ //get csrf_token
+function getCookie(name) {
+   var cookieValue = null;
+   if (document.cookie && document.cookie !== '') {
+       var cookies = document.cookie.split(';');
+       for (var i = 0; i < cookies.length; i++) {
+           var cookie = cookies[i].trim();
+           // Does this cookie string begin with the name we want?
+           if (cookie.substring(0, name.length + 1) === (name + '=')) {
+               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+               break;
+           }
+       }
+   }
+   return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+$(document).ready(function(){
+
+   function call_filter_ajax(){
+      var url = "{% url 'activity_filter' %}";
+      var data = {
+         "uid": $("#useraccount_select").val(),
+         "date": $(".date").val(),
+         "search_keyword": $(".search-input").val(),
+         "sort_by": $("#sort_by").val(),
+         "filter_status": $("#filter_status").val(),
+      }
+      $.ajax({
+         headers: { "X-CSRFToken": csrftoken },
+         url: url,
+         type: "POST",
+         dataType: "json",
+         data: data,
+         success: function(data){
+            $(".activity_wr").empty();
+            if(!$('.activity_exception').hasClass('d-none'))
+            $('.activity_exception').addClass('d-none')
+            if (data.length > 0){
+               for(job in data ){
+                  $(".activity_wr").append('<div class="card px-2 py-2 activity_card my-2"> <div class="row mx-0"> <div class="date_box col-md-1"> <span class="activity_date"> ' + data[job].date + ' </span> ' + data[job].month_year + ' </div> <div class="col-md-11 fs_20 pt-2"> ' + data[job].title + ' </div> </div> </div>')
+               }
+            }else{
+               $('.activity_exception').removeClass('d-none')
+            }
+         }
+      })
+   }
+
+   // delay keyup
+   function delay(callback, ms) {
+     var timer = 0;
+     return function() {
+       var context = this, args = arguments;
+       clearTimeout(timer);
+       timer = setTimeout(function () {
+         callback.apply(context, args);
+       }, ms || 0);
+     };
+   }
+
+   //initial values
+   call_filter_ajax();
+
+   //onkeyup execute ajax
+   $(".search-input").keyup(delay(function(){
+      call_filter_ajax();
+   }, 1000));
+
+   //onchange of date execute ajax
+   $('.date').change(function(){
+      call_filter_ajax();
+   });
+
+    //onchange of sort option execute ajax
+   $('#sort_by').change(function(){
+      call_filter_ajax();
+   });
+
+   //onchange of filter option execute ajax
+   $('#filter_status').change(function(){
+      call_filter_ajax();
+   });
+
+   $("#reset_form").click(function(){
+      $('form')[0].reset();
+      call_filter_ajax();
+   })
+
+});
+
+
+$(document).ready(function(){
+
+   function get_automation_status(){
+      var url = "{% url 'automation_status' %}";
+      var data = {
+         "uid": $("#useraccount_select").val(),
+      }
+      $.ajax({
+         headers: { "X-CSRFToken": csrftoken },
+         url: url,
+         type: "GET",
+         dataType: "json",
+         data: data,
+         success: function(data){
+            $(".ig-ac-status").each(function(i,e){
+               if(!$(e).hasClass("d-none"))
+                  $(e).addClass("d-none")
+            })
+            $(".ig-ac-btn").each(function(i,e){
+               if(!$(e).hasClass("d-none"))
+                  $(e).addClass("d-none")
+            })
+            if (data){
+               $(".started").removeClass("d-none");
+               $(".ig-ac-btn-stop").removeClass("d-none");
+            }else{
+               $(".stopped").removeClass("d-none");
+               $(".ig-ac-btn-start").removeClass("d-none");
+            }
+         }
+      })
+   }
+
+   function update_automation_status(status){
+      var url = "{% url 'automation_status' %}";
+      var data = {
+         "uid": $("#useraccount_select").val(),
+         "status": status,
+      }
+      $.ajax({
+         headers: { "X-CSRFToken": csrftoken },
+         url: url,
+         type: "POST",
+         dataType: "json",
+         data: data,
+         success: function(data){
+            $(".ig-ac-status").each(function(i,e){
+               if(!$(e).hasClass("d-none"))
+                  $(e).addClass("d-none")
+            })
+            $(".ig-ac-btn").each(function(i,e){
+               if(!$(e).hasClass("d-none"))
+                  $(e).addClass("d-none")
+            })
+            if (data){
+               $(".started").removeClass("d-none");
+               $(".ig-ac-btn-stop").removeClass("d-none");
+            }else{
+               $(".stopped").removeClass("d-none");
+               $(".ig-ac-btn-start").removeClass("d-none");
+            }
+         }
+      })
+   }
+
+   function get_details(){
+      var url = "{% url 'get_user_account_details' %}";
+      var data = {
+         "uid": $("#useraccount_select").val(),
+      }
+      $.ajax({
+         headers: { "X-CSRFToken": csrftoken },
+         url: url,
+         type: "POST",
+         dataType: "json",
+         data: data,
+         success: function(data){
+            $('.likes').empty().text(data.likes)
+            $('.follows').empty().text(data.follows)
+            $('.unfollows').empty().text(data.unfollows)
+         }
+      })
+   }
+
+
+   get_details()
+   get_automation_status();
+
+   $(".ig-ac-btn-start").click(function(){
+      update_automation_status("1");
+   });
+
+   $(".ig-ac-btn-stop").click(function(){
+      update_automation_status("0");
+   });
+
+});
+</script>
+
+<script>
+    $(function(){
+      $('#useraccount_select').on('change', function (e) {
+
+          var url = "/advance/dashboard/instagram_activity/" + $(this).val();
+
+          if (url) {
+              window.location = url; 
+          }
+          return false;
+      });
+    });
+</script>
+{% endblock %}

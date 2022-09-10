@@ -1,0 +1,98 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static i18n %}
+{% block title %} Account manager {% endblock %}
+{% block content %}
+
+<div class="wrapper">
+   <div class="subheader account-manager">
+      <div class="wrap">
+         <div class="subheader-main">
+            <button class="btn btn-label-info m-r-10 subheader-toggle"><i class="fas fa-bars"></i></button>
+            <h3 class="title"><i class="text-info far fa-user-circle"></i> {% trans 'youtubeManager' %}</h3>
+         </div>
+      </div>
+   </div>
+   <div class="content-two-column account-manager">
+      <div class="column-one nicescroll">
+         <a href="{{ authorization_url }}" class="btn btn-social btn-block text-left"  id="myButton"><i class="fab fa-youtube" style="color: #d62976">
+
+         </i> {% trans 'addYoutubeAccounts'	%}</a>
+      </div>
+      <div class="column-two nicescroll">
+         <div class="row">
+            <div class="col-md-12 col-sm-6">
+               <div class="card m-b-30">
+                  <div class="card-header wrap-m">
+                     <div class="card-title wrap-c m-b-0"><i class="fab fa-youtube p-r-5" style="color: #d62976"></i>{% trans 'Youtube profiles | Total accounts:'	%}<strong class="mx-2">{{user_accounts.count}}</strong></div>
+                  </div>
+                  <div class="card-body widget-list nicescroll p-0 no-update">
+                      {% for youtube_account in user_accounts %}
+                     <div class="widget-item widget-item-3 search-item line padding">
+
+                         <div class="icon">
+                               <i class="fa fa-user"></i>
+                           </div>
+
+                           <div class="content content">
+                                <!-- <a href="https://instagram.com/{{ insta_account.account_username }}" target="_blank"> -->
+
+                              <div class="title fw-4 d-inline-block">{{ youtube_account.email }}
+                               <!--  {% if insta_account.login_status == 'IN' %} <span class="badge mx-3 badge-success"> <strong> {% trans 'loggedIn' %} </strong> </span>
+                                {% elif insta_account.login_status == 'OUT' %}  <span class="badge mx-3 badge-danger"><strong> {% trans 'loggedOut' %} </strong> </span> | {{insta_account.job_set.last.data.failure_reason}}
+                                {% elif insta_account.login_status == 'F' %} <span class="badge mx-3 badge-danger"><strong> {% trans 'failed' %} </strong> </span>
+                                {% elif insta_account.login_status == 'O' %} <span class="badge mx-3 badge-warning"><strong> {% trans 'otpRequired' %} </strong> </span>
+                                {% elif insta_account.login_status == 'P' %} <span class="badge mx-3 badge-warning"><strong> {% trans 'pending' %} </strong> </span> {% endif %}
+                                {% if insta_account.account_from == "CO" %}
+                                    Bot
+                                 {% endif %} -->
+                              </div>
+                                     </a>
+
+                               <!-- {% if insta_account.login_status == 'O' %} <button class="btn btn-primary" data-id="{{insta_account.id}}" id='show_Otp' style="position: absolute;padding-top: 8px;">Enter OTP</button>{% endif %}
+ -->
+                           </div>
+                        <div class="widget-option">
+                           <div class="dropdown">
+                              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                              <i class="ft-more-vertical"></i>
+                              </button>
+                              <ul class="dropdown-menu dropdown-menu-right dropdown-menu-fit dropdown-menu-anim dropdown-menu-top-unround">
+                                 <li><a href="#"><i class="far fa-trash-alt"></i> {% trans 'delete' %}</a></li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                      {% endfor %}
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<form method="post" action="{% url 'dashboard' %}" id="myFormasd">
+  {% csrf_token %}
+  <input type="hidden" id="youtube_user_id" name="youtube_user_id">
+</form>
+<script>
+$(document).ready(function()
+{
+    $('#show_Otp').click(function()
+    {
+        var youtube_account =$(this).attr('data-id');
+        $("#user_id_otp").val(youtube_account);
+        $('#send_otp_modal').modal('show');
+    });
+});
+</script>
+<!-- <script type="text/javascript">
+    document.getElementById("myButton").onclick = function () {
+        alert("The URL of this page is: " + window.location.href);
+        debugger;
+        location.href = "";
+        var code = document.getElementById('code');
+    };
+</script> -->
+
+
+{% endblock %}

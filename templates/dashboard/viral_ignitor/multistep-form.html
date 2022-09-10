@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html >
+   <head>
+
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+      <meta content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+      <title>Surviral Multistep Form</title>
+
+      <!-- Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Wire+One|Quicksand|Julius+Sans+One|Nunito+Sans|Old+Standard+TT&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,700&display=swap" rel="stylesheet" />
+
+      <!-- Links -->
+      <link rel="icon" type="image/x-icon" href="{% static 'svg/favicon.png' %}" />
+
+      <!-- Custom Style -->
+      <!-- <link href="fonts/fonts.css" rel="stylesheet" /> -->
+      <link rel="stylesheet" media="all" href="{% static '/css/main-min.css' %}" />
+      <link rel="stylesheet" media="all" href="{% static '/css/style.css' %}" />
+
+   </head>
+<body>
+
+<section class="section-multistep-from pt_80 pb_60">
+
+  <div class="container">
+
+   <h2 class="main-heading-ui text-center text-uppercase with-bottom-border">INPUT INFORMATION</h2>
+
+   <p class="section-description text-center">Please fill the information to start surviral.</p>
+   <div class="mb_70 seperator"></div>
+
+   <!-- Multistep form here -->
+   <form id="multistep-form" action="#">
+      <div class="step-form-ui max_w_725 mx-auto">
+            <!-- Section 1 -->
+            <h3 class="d-none">Your account</h3>
+            <section>
+              <div class="form-group">
+                <label for="userName">Name</label>
+                <input id="userName" placeholder="Name" value="developer" name="user_name" type="text" class="required form-control" />
+              </div>   
+
+              <div class="form-group">
+                <label for="userEmail">Email</label>
+                <input id="userEmail" placeholder="Email" value="email@test.com" name="user_email" type="email" class="required form-control" />
+              </div>
+
+              <div class="form-group">
+                <label for="userPassword">Password</label>
+                <input id="userPassword" placeholder="Password" value="12345" name="user_password" type="password" class="required form-control" />
+              </div>
+
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input id="confirmPassword" placeholder="Password" value="12345" name="user_cpassword" type="password" class="required form-control" />
+              </div>
+
+           </section>
+
+           <!-- Section 2 -->
+           <h3 class="d-none">Your Instagram</h3>
+           <section>
+              <div class="form-group">
+                <label for="instaAccount">Instagram account</label>
+                <input id="instaAccount" placeholder="@xxxxxx  (account name start from @)" name="insta_account" type="text" class="form-control" />
+              </div> 
+
+               <div class="form-group">
+                <label for="instaPassword">Instagram password</label>
+                <input id="instaPassword" placeholder="Password" name="insta_password" type="password" class="form-control" />
+              </div> 
+
+               <div class="form-group">
+                <label for="instaAccountAbout">Your account is about</label>
+                <input id="instaAccountAbout" placeholder="ex) music , food , cafe" name="insta_account_about" type="text" class="form-control" />
+              </div>   
+           </section>
+
+           <!-- Section 3 -->
+           <h3 class="d-none">Your Target</h3>
+           <section>
+              <div class="form-group">
+                <label for="targetAudience">Your target audience is</label>
+                <textarea id="targetAudience" rows="5" placeholder="ex) dance music lover , business woman" name="target_audience" class="form-control"></textarea>
+              </div> 
+
+              <div class="form-group">
+                <label for="targetArea">Target Area</label>
+                <input id="targetArea" placeholder="Area name" name="target_area" type="text" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label for="targetGender">Target Gender</label>
+                <select id="targetGender" name="target_gender" class="custom-select form-control">
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Both</option>
+                </select>
+              </div>  
+
+              <div class="form-group">
+                <label for="yourCompetitors">Your competitor's instagram Account</label>
+                <textarea id="yourCompetitors" rows="5" placeholder="ex) dance music lover , business woman" name="target_audience" class="form-control"></textarea>
+              </div> 
+           </section>
+
+       </div>
+    </form>
+    <!-- Multistep form end -->
+
+  </div>
+</section>
+
+   <!-- Script -->
+   <script src="{% static '/js/main-min.js' %}"  ></script>
+   <script src="{% static '/js/style.js' %}"  ></script>
+   <script src="{% static 'js/core_post.js' %}"></script>
+
+</body>
+</html>  

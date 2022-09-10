@@ -1,0 +1,888 @@
+{% load static dashboard_extras %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+
+      <title>{% trans 'Surviral.io' %}</title>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+      <meta name="description"
+         content="Posting Your Content is tedious and takes a long time, its much easier on to get the job done on the computer. Now you can post & schedule your instagram posts with just a few clicks.">
+      <meta name="keywords"
+         content="Instagram Post Scheduler, Surviral Instagram Post Scheduler, Post Scheduler Application">
+      <meta name="site-icon" content="https://dy6k9vx8xmxk5.cloudfront.net/wp-content/uploads/2020/10/50.png" />
+      <link rel="icon" href="https://dy6k9vx8xmxk5.cloudfront.net/wp-content/uploads/2020/10/50.png" sizes="32x32" />
+
+      <!--Css-->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/line-awesome.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/feather.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/awesome.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/flag-icon.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui-timepicker-addon.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/chart.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.fancybox.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/izitoast.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/emojionearea.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/custom-scrollbar.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/monthly.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/ion.rangeSlider.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/vtdropdown.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-select.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/account_manager.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/caption.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/jquery.fileupload.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/file_manager.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/group_manager.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/schedules.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/watermark.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/instagram_activity.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/instagram_analytics.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/instagram_post.css' %}">
+      <link rel='stylesheet' type='text/css' href="{% static 'css/post.css' %}">
+       {% block css %}{% endblock %}
+
+
+<style>
+   @-webkit-keyframes spin {
+     0% {
+       transform: rotate(0)
+     }
+
+     100% {
+       transform: rotate(360deg)
+     }
+   }
+
+   @-moz-keyframes spin {
+     0% {
+       -moz-transform: rotate(0)
+     }
+
+     100% {
+       -moz-transform: rotate(360deg)
+     }
+   }
+
+   @keyframes spin {
+     0% {
+       transform: rotate(0)
+     }
+
+     100% {
+       transform: rotate(360deg)
+     }
+   }
+
+   .spinner {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     z-index: 1003;
+     background: #fbfbfd;
+     overflow: hidden
+   }
+
+   .spinner div:first-child {
+     display: block;
+     position: relative;
+     left: 50%;
+     top: 50%;
+     width: 150px;
+     height: 150px;
+     margin: -75px 0 0 -75px;
+     border-radius: 50%;
+     box-shadow: 0 3px 3px 0 #ed4594;
+     transform: translate3d(0, 0, 0);
+     animation: spin 2s linear infinite
+   }
+
+   .spinner div:first-child:after,
+   .spinner div:first-child:before {
+     content: '';
+     position: absolute;
+     border-radius: 50%
+   }
+
+   .spinner div:first-child:before {
+     top: 5px;
+     left: 5px;
+     right: 5px;
+     bottom: 5px;
+     box-shadow: 0 3px 3px 0 #2ecc71;
+     -webkit-animation: spin 3s linear infinite;
+     animation: spin 3s linear infinite
+   }
+
+   .spinner div:first-child:after {
+     top: 15px;
+     left: 15px;
+     right: 15px;
+     bottom: 15px;
+     box-shadow: 0 3px 3px 0 #f69267;
+     animation: spin 1.5s linear infinite
+   }
+        .alert_message {
+            margin: 0!important;
+            padding: 15px 15px 0 15px!important;
+            position: absolute;
+            width: 500px;
+            right: 50%;
+            transform: translate(50%, -5px);
+        }
+        .hidden{
+         display:none !important;
+        }
+
+        .stats_and_log{
+            display: inline-block;
+            padding: 0px!important;
+            border-radius: 100px;
+            color: #74788d;
+         }
+
+         .stats_and_log .ig-ac-settings{
+            margin: 2px auto!important;
+         }
+        </style>
+      <!--Jquery-->
+      <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+      <!---End Jquery-->
+      <script type="text/javascript">
+        var token = 'd51985f35d28d79a6bf20c108f237188';
+        var PATH = '/';
+        var BASE = '/';
+        var FORMAT_DATE = 'mm/dd/yy';
+        var FORMAT_DATETIME = ["mm/dd/yy", "hh:mm TT"];
+        var LANGUAGE = '';
+
+         document.onreadystatechange = function () {
+             var state = document.readyState
+             if (state == 'complete') {
+                 setTimeout(function () {
+                     document.getElementById('interactive');
+                     document.getElementById('loading-overplay').style.opacity = "1";
+                 },600);
+
+                 setTimeout(function(){
+                     document.getElementById('loading-overplay').style.display ="none";
+                     document.getElementById('loading-overplay').style.opacity ="1";
+                 },1200);
+             }
+         }
+      </script>
+      <script>
+          $(window).on('load',function(){
+              {% for user in user.chats_set.all %}
+                  {% if user.account_for == "W" %}
+                      {% if user.login_status == 'O' %}
+                          $("#user_id_otp").val("{{user.id}}");
+                          if ($("#useraccount_select").val() == $("#user_id_otp").val()){
+                            $('#send_otp_modal').modal('show');
+                          }
+                      {% endif %}
+                  {% endif %}
+              {% endfor %}
+          });
+
+          // $(document).ready(function(){
+          //   setInterval(function(){
+          //   function getCookie(name) {
+          //      var cookieValue = null;
+          //      if (document.cookie && document.cookie !== '') {
+          //          var cookies = document.cookie.split(';');
+          //          for (var i = 0; i < cookies.length; i++) {
+          //              var cookie = cookies[i].trim();
+          //              // Does this cookie string begin with the name we want?
+          //              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          //                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          //                  break;
+          //              }
+          //          }
+          //      }
+          //      return cookieValue;
+          //   }
+          //   var csrftoken = getCookie('csrftoken');
+          //   var uid = $("#useraccount_select").val();
+          //   $.ajax({
+          //      headers: { "X-CSRFToken": csrftoken },
+          //      url: "{% url 'check_otp_status' %}",
+          //      type: "POST",
+          //      dataType: "json",
+          //      data: {
+          //      "uid": uid,
+          //      },
+          //      success: function(data){
+          //         var modal = $('#send_otp_modal');
+          //         if (data.data == "O" && modal.hasClass('show') == false ){
+          //             modal.modal('show');
+          //         }
+          //      }
+          //   })
+          //   }, 10000)
+          // })
+      </script>
+      {% block style %}{% endblock %}
+   </head>
+   <!-- sidebar-small  -->
+   <body  onload="onLoadfunction()">
+
+      <div id="loading-overplay" class="spinner">
+         <div class="blob blob-0"></div>
+         <div class="blob blob-1"></div>
+         <div class="blob blob-2"></div>
+         <div class="blob blob-3"></div>
+         <div class="blob blob-4"></div>
+         <div class="blob blob-5"></div>
+         <div class="blob blob-6"></div>
+         <div class="blob blob-7"></div>
+         <div class="blob blob-8"></div>
+       </div>
+
+      <div class="header">
+
+         <div class="topbar">
+            <div class="m-t-10 d-none d-sm-block">
+               <span class="m-r-10">{% trans 'subscriptionExpire' %}: {{ user|subscription_expire_date:user }}</span>
+            </div>
+            {% if not user|is_subscribed %}
+
+            <div class="m-r-10 m-t-2 d-none d-sm-block">
+               <a class="btn btn-info text-uppercase" href="{% url 'pricing' %}">{% trans 'upgradeNow' %}</a>
+            </div>
+            {% elif user.chats_set.all %}
+           <select id="useraccount_select" class="form-control item" style="width: auto" >
+            {% for account in user.chats_set.all %}
+             <option value="{{account.id}}" name="{{account.name}}"  {% if user.chats_set.all.first %}selected{% endif %}>{{account.name}}</option>
+            {% endfor %}
+           </select>
+           <div class=" instagram-activity stats_and_log ">
+              {% include 'dashboard/include/stats_and_logs.html' %}
+           </div>
+            {% endif %}
+
+            <div class="item" id="beamer-notification">
+               <a data-original-title="Notification" data-placement="bottom" data-toggle="tooltip"
+                  href="javascript:void(0);"
+                  title=""><i class="far fa-bell"></i></a>
+            </div>
+            <div class="item item-none-with item-user">
+               <div class="dropdown">
+                  <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle"
+                     data-toggle="dropdown" id="dropdownMenuButton" type="button">
+                        {% trans 'Hi' %}, {{ user.username }}
+                      <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=5578eb&color=fff&font-size=0.5&rounded=true">
+                  </button>
+                  <div aria-labelledby="dropdownMenuButton"
+                     class="dropdown-menu dropdown-menu-right dropdown-menu-fit dropdown-menu-anim dropdown-menu-top-unround">
+                     <a class="dropdown-item" href="{% url 'account' %}"><i class="far fa-user"></i>
+                     {% trans 'Account' %}</a>
+                     <a class="dropdown-item" href="{% url 'change_password' %}"><i
+                        class="fas fa-unlock-alt"></i> {% trans 'changePassword' %}</a>
+                     <a class="dropdown-item" href="{% url 'package' %}"><i
+                        class="fas fa-cubes"></i> {% trans 'package' %}</a>
+                     <a class="dropdown-item" href="{% url 'logout' %}"><i
+                        class="fas fa-sign-out-alt"></i> {% trans 'logout' %}</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         {% for message in messages %}
+         <div class="alert {{ message.tags }} alert-dismissible message_block" role="alert">
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+             {{ message | safe }}
+         </div>
+         {% endfor %}
+
+      </div>
+      <div class="sidebar">
+         <a class="sidebar-toggle" href="javascript:void(0);">
+         <i class="ft-chevrons-left"></i>
+         </a>
+         <div class="logo">
+            <a href="{% url 'dashboard' %}">
+            <span class="logo-small"><img
+               src="{% static 'svg/logo-s.svg' %}"></span>
+            <span class="logo-full"><img
+               src="{% static 'svg/logo-s.svg' %}"></span>
+            </a>
+         </div>
+         <div class="menu">
+            <div class="menu-item">
+               <a href="{% url 'tele_dashboard' %}" class="link-">
+               <span class="menu-icon"><img src="{% static 'img/sidebar-icons/dashboard.svg' %}"/>
+                  <img src="{% static 'img/sidebar-icons/dashboard_a.svg' %}"/>
+               </span>
+               <span class="menu-desc">{% trans 'dashboard' %}</span>
+               </a>
+            </div>
+             <div class="menu-item" id="">
+               <a href="javascript:void(0);" class="link-">
+               <span class="menu-icon"><img src="{% static 'img/sidebar-icons/telegram_2.png' %}"/>
+                  <img src="{% static 'img/sidebar-icons/telegram_2.png' %}"/>
+               </span>
+               <span class="menu-desc">{% trans  'TelegramTools' %}</span>
+               </a>
+               <span class="menu-arrow">
+               <i class="ft-chevron-right"></i>
+               </span>
+               <ul class="submenu">
+<!--                    <li class="">-->
+<!--                     <a href="{% url 'auto-direct-message' %}" >-->
+<!--                     <span class="menu-icon"><i class="fas fa-circle"></i></span>-->
+<!--                     <span class="menu-desc">{% trans 'autoDirectMessage' %}</span>-->
+<!--                     </a>-->
+<!--                  </li>-->
+<!--                    <li class="">-->
+<!--                     <a href="{% url 'auto-reply' %}" >-->
+<!--                     <span class="menu-icon"><i class="fas fa-circle"></i></span>-->
+<!--                     <span class="menu-desc">{% trans 'autoReplyComment' %}</span>-->
+<!--                     </a>-->
+<!--                  </li>-->
+<!--                    <li class="">-->
+<!--                     <a href="{% url 'auto-direct-message' %}" >-->
+<!--                     <span class="menu-icon"><i class="fas fa-circle"></i></span>-->
+<!--                     <span class="menu-desc">{% trans 'userDirectMessage' %}</span>-->
+<!--                     </a>-->
+<!--                  </li>-->
+                    <li class="">
+                     <a href="{% url 'group-direct-message' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'groupDirectMessage' %}</span>
+                     </a>
+                  </li>
+<!--                   <li class="">-->
+<!--                     <a href="{% url 'auto-direct-message' %}" >-->
+<!--                     <span class="menu-icon"><i class="fas fa-circle"></i></span>-->
+<!--                     <span class="menu-desc">{% trans 'channelDirectMessage' %}</span>-->
+<!--                     </a>-->
+<!--                  </li>-->
+               </ul>
+            </div>
+
+            <div class="menu-item" id="">
+               <a href="javascript:void(0);" class="link-">
+               <span class="menu-icon"><img src="{% static 'img/sidebar-icons/twitter.svg' %}"/>
+                  <img src="{% static 'img/sidebar-icons/twitter.svg' %}"/>
+               </span>
+               <span class="menu-desc">{% trans  'TwitterTools' %}</span>
+               </a>
+               <span class="menu-arrow">
+               <i class="ft-chevron-right"></i>
+               </span>
+               <ul class="submenu">
+                  <li class="">
+                     <a href="{% url 'follow' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'SingleFollow' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'multiple-follow' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'multipleFollow' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'tweet' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'tweet' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'retweet' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'retweet' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'like-on-tweet' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'likeOnTweet' %}</span>
+                     </a>
+                  </li>
+                  <!-- <li class="">
+                     <a href="{% url 'comment_video' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'commentOnVideo' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'views_video' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'viewsVideo' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'subscribe_channel' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'subscribeChannel' %}</span>
+                     </a>
+                  </li> -->
+               </ul>
+            </div>
+
+            {% if user.is_staff %}
+            <div class="menu-item" id="">
+               <a href="javascript:void(0);" class="link-">
+               <span class="menu-icon"><img src="{% static 'img/sidebar-icons/youtube.svg' %}"/>
+                  <img src="{% static 'img/sidebar-icons/youtube.svg' %}"/>
+               </span>
+               <span class="menu-desc">{% trans  'YoutubeTools' %}</span>
+               </a>
+               <span class="menu-arrow">
+               <i class="ft-chevron-right"></i>
+               </span>
+               <ul class="submenu">
+                  <li class="">
+                     <a href="{% url 'like_video' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'likeOnVideo' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'dislike_video' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'dislikeOnVideo' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'comment_video' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'commentOnVideo' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'views_video' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'viewsVideo' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'subscribe_channel' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'subscribeChannel' %}</span>
+                     </a>
+                  </li>
+               </ul>
+            </div>
+
+            <div class="menu-item ">
+               <a href="{% url 'youtube_manager' %}">
+                  <span class="menu-icon" class="link-"><img src="{% static 'img/sidebar-icons/account.svg' %}"/>
+                     <img src="{% static 'img/sidebar-icons/account_a.svg' %}"/>
+                  </span>
+               <span class="menu-desc">{% trans 'youtubeManager'%}</span>
+               </a>
+            </div>
+            <div class="menu-item ">
+               <a href="{% url 'youtube_group_manager' %}">
+                  <span class="menu-icon" class="link-"><img src="{% static 'img/sidebar-icons/group.svg' %}"/>
+                     <img src="{% static 'img/sidebar-icons/group_a.svg' %}"/>
+                  </span>
+               <span class="menu-desc">{% trans 'YoutubegroupManager' %}</span>
+               </a>
+            </div>
+            {% endif %}
+           {% if user.chats_set.all and user|is_subscribed %}
+
+            <div class="menu-item ">
+               <a href="{% url 'publish_all' %}" class="link-">
+                  <span class="menu-icon"><img src="{% static 'img/sidebar-icons/publish.svg' %}"/>
+                     <img src="{% static 'img/sidebar-icons/publish_a.svg' %}"/>
+                  </span>
+               <span class="menu-desc">{% trans 'publishAll' %}</span>
+               </a>
+            </div>
+
+
+            <div class="menu-item ">
+               <a href="javascript:void(0);" class="link-">
+               <span class="menu-icon"><img src="{% static 'img/sidebar-icons/instagram.svg' %}"/>
+                  <img src="{% static 'img/sidebar-icons/instagram_a.svg' %}"/>
+               </span>
+               <span class="menu-desc">{% trans  'instagram' %}</span>
+               </a>
+               <span class="menu-arrow">
+               <i class="ft-chevron-right"></i>
+               </span>
+               <ul class="submenu">
+                  <li class="">
+                     <a href="{% url 'post' %}">
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'post' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a id="instagram_activity">
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'activity' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'instagram_analytics' %}">
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'analytics' %}</span>
+                     </a>
+                  </li>
+               </ul>
+            </div>
+
+             <div class="menu-item hidden" id="insta_tool">
+               <a href="javascript:void(0);" >
+                <span class="menu-icon"><img src="{% static 'img/sidebar-icons/Instagram_tool.svg' %}"/>
+                  <img src="{% static 'img/sidebar-icons/instagram_a.svg' %}"/>
+               </span>
+               <span class="menu-desc">{% trans 'instagramTools' %}</span>
+               </a>
+               <span class="menu-arrow">
+               <i class="ft-chevron-right"></i>
+               </span>
+               <ul class="submenu">
+                   <li class="">
+                     <a href="{% url 'create_bot' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'createInstagramAccount' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'like_comment_post' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'likeComment' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'give_comment' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'commentOnLatestPost' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'like_comment_followers' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'likeCommentFollowers' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'like_comment_followings' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'likeCommentFollowings' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'post_image' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'postImage' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'post_multi_image' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'PostMultipleImage' %}</span>
+                     </a>
+                  </li>
+                   {% comment %}
+                  <li class="">
+                     <a href="{% url 'post_video' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'postVideo' %}</span>
+                     </a>
+                  </li>
+                  {% endcomment %}
+                  <li class="">
+                     <a href="{% url 'post_story' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'postStory' %}</span>
+                     </a>
+                  </li>
+
+                  <li class="">
+                     <a href="{% url 'single_follow' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'directFollow' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'multiple_follow' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'multiplefollow' %}</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="{% url 'multiple_unfollow' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'multipleUnFollow' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'hashtags_like' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'hashtagsLike' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'hashtags_follow' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'hashtagsFollow' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'advanced_hashtags_follow' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'advancedHashtagsFollow' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'auto-direct-message' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'autoDirectMessage' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'auto-reply-comment' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'autoReplyComment' %}</span>
+                     </a>
+                  </li>
+                   <li class="">
+                     <a href="{% url 'story-direct-message' %}" >
+                     <span class="menu-icon"><i class="fas fa-circle"></i></span>
+                     <span class="menu-desc">{% trans 'storyDirectMessage' %}</span>
+                     </a>
+                  </li>
+               </ul>
+            </div>
+            <div class="menu-item">
+                <a href="{% url 'schedules' %}" class="link-">
+                  <span class="menu-icon" ><img src="{% static 'img/sidebar-icons/calendar.svg' %}"/>
+                     <img src="{% static 'img/sidebar-icons/calendar_a.svg' %}"/>
+                  </span>
+                    <span class="menu-desc">{% trans 'schedules' %}</span>
+                </a>
+            </div>
+            <div class="menu-item ">
+               <a href="{% url 'account_manager' %}">
+                  <span class="menu-icon" class="link-"><img src="{% static 'img/sidebar-icons/account.svg' %}"/>
+                     <img src="{% static 'img/sidebar-icons/account_a.svg' %}"/>
+                  </span>
+               <span class="menu-desc">{% trans 'accountManager'%}</span>
+               </a>
+            </div>
+
+            <div class="menu-item ">
+               <a href="{% url 'file_manager' %}">
+               <span class="menu-icon" class="link-"><img src="{% static 'img/sidebar-icons/file.svg' %}"/>
+                  <img src="{% static 'img/sidebar-icons/file_a.svg' %}"/>
+               </span>
+               <span class="menu-desc">{% trans 'fileManager' %}</span>
+               </a>
+            </div>
+            <div class="menu-item ">
+               <a href="{% url 'group_manager' %}">
+                  <span class="menu-icon" class="link-"><img src="{% static 'img/sidebar-icons/group.svg' %}"/>
+                     <img src="{% static 'img/sidebar-icons/group_a.svg' %}"/>
+                  </span>
+               <span class="menu-desc">{% trans 'groupManager' %}</span>
+               </a>
+            </div>
+            <div class="menu-item ">
+               <a href="{% url 'caption' %}">
+                  <span class="menu-icon"><img src="{% static 'img/sidebar-icons/caption.svg' %}"/></span>
+               <span class="menu-desc">{% trans 'caption' %}</span>
+               </a>
+            </div>
+            <div class="menu-item ">
+               <a href="{% url 'watermark' %}">
+                  <span class="menu-icon" class="link-"><img src="{% static 'img/sidebar-icons/medal.svg' %}"/>
+                     <img src="{% static 'img/sidebar-icons/medal_a.svg' %}"/>
+                  </span>
+               <span class="menu-desc">{% trans 'watermark'%}</span>
+               </a>
+            </div>
+
+             {% elif user|is_subscribed %}
+            <div class="menu-item ">
+               <a href="{% url 'account_manager' %}" class="link-">
+                  <span class="menu-icon"><img src="{% static 'img/sidebar-icons/account.svg' %}"/>
+                     <img src="{% static 'img/sidebar-icons/account_a.svg' %}"/>
+                  </span>
+
+               <span class="menu-desc">{% trans 'accountManager' %}</span>
+               </a>
+            </div>
+            {% endif %}
+
+
+             <div class="menu-item ">
+               <a href="{% url 'logout' %}" class="link-">
+                  <span class="menu-icon"><img src="{% static 'img/sidebar-icons/exit.svg' %}"/>
+                     <img src="{% static 'img/sidebar-icons/exit_a.svg' %}"/>
+                  </span>
+
+               <span class="menu-desc">{% trans 'logout' %}</span>
+               </a>
+            </div>
+         </div>
+      </div>
+      {% block content %}
+      {% endblock %}
+
+      <div id="send_otp_modal" class="modal" tabindex="-1" role="dialog">
+           <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                 <div class="card-header custom-box-header">
+                 <div class="modal-header" style="width:100%">
+
+                   <h5 class="modal-title">{% trans 'enterOTP' %}</h5>
+
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                   </button>
+                    </div>
+                 </div>
+                 <div class="modal-body">
+                    <form action="{%url 'insert_otp' %}" method="post" style="top: 100px;">
+                          {% csrf_token %}
+                      <input type="text" id="otp" name="otp" placeholder="{% trans 'writeOTPhere' %}" class="form-control" required="True">
+                      <br>
+                         <input type="hidden" id="user_id_otp" name="user_id" value="" />
+                         <input type="hidden" name="action" value="enter_otp" />
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary Connect-btn">{% trans 'Submit' %}</button>
+                        </div>
+                    </form>
+                 </div>
+              </div>
+           </div>
+      </div>
+
+      <!--Javscript-->
+      <script type="text/javascript" src="{% static 'js/ckeditor.js' %}"></script>
+      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/jquery-ui.js' %}"></script>
+      <script src="{% static 'js/jquery-ui-timepicker-addon.min.js' %}"></script>
+      <script src="{% static 'js/custom-scrollbar.js' %}"></script>
+      <script src="{% static 'js/responsive-tab.js' %}"></script>
+      <script src="{% static 'js/chart.bundle.min.js' %}"></script>
+      <script src="{% static 'js/emojionearea.min.js' %}"></script>
+      <script src="{% static 'js/nicescroll.js' %}"></script>
+      <script src="{% static 'js/izitoast.js' %}"></script>
+      <script src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+      <script src="{% static 'js/ckeditor.js' %}"></script>
+      <script src="{% static 'js/monthly.js' %}"></script>
+      <script src="{% static 'js/jquery.md5.js' %}"></script>
+      <script src="{% static 'js/ion.rangeSlider.min.js' %}"></script>
+      <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+      <script src="{% static 'js/vtdropdown.js' %}"></script>
+      <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+      <script src="{% static 'js/jquery.ui.touch-punch.js' %}"></script>
+      <script src="{% static 'js/layout.js' %}"></script>
+      <!-- <script src="{% static 'js/core.js' %}"></script> -->
+      <!-- <script src="{% static 'js/core_post.js' %}"></script> -->
+      <script src="{% static 'js/caption.js' %}"></script>
+      <script src="{% static 'js/jquery.ui.widget.js' %}"></script>
+      <script src="{% static 'js/jquery.iframe-transport.js' %}"></script>
+      <script src="{% static 'js/jquery.fileupload.js' %}"></script>
+      <script src="{% static 'js/jquery.lazy.min.js' %}"></script>
+      <script src="{% static 'js/jquery-gdrive.js' %}"></script>
+      <script src="{% static 'js/file_manager.js' %}"></script>
+      <script src="{% static 'js/group_manager.js' %}"></script>
+      <script src="{% static 'js/schedules.js' %}"></script>
+      <script src="{% static 'js/watermark.js' %}"></script>
+      <script src="{% static 'js/instagram_activity.js' %}"></script>
+      <script src="{% static 'js/instagram_analytics.js' %}"></script>
+      <script src="{% static 'js/instagram_post.js' %}"></script>
+      <script src="{% static 'js/instagram_profiles.js' %}"></script>
+      <script src="{% static 'js/post.js' %}"></script>
+      <script src="{% static 'js/jszip.min.js' %}"></script>
+      <script src="{% static 'js/kendo.all.min.js' %}"></script>
+      <script>
+      $(document).ready(function(){
+         window.setTimeout(function() {
+            $(".message_block").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+            });
+         }, 5000);
+
+
+         jQuery(function($) {
+            var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
+               $('#mCSB_1_container a').each(function() {
+               if (this.href === path) {
+                  $(this).addClass('active');
+                  $(this).closest('.menu-item').addClass('menu-open');
+                  $(this).closest('.submenu').show();
+
+               }
+               });
+            });
+
+
+      });
+      </script>
+      <script type="text/javascript">
+        $('#useraccount_select').change(function()  {
+          location.reload();
+          })
+      </script>
+      <script type="text/javascript">
+        function onLoadfunction() {
+            var selItem = sessionStorage.getItem("SelItem");
+            if (selItem != "undefined") {
+            $('#useraccount_select').val(selItem);
+            }
+            else if (selItem == "undefined") {
+              document.getElementById("useraccount_select").selectedIndex = "0";
+            }
+            $('#useraccount_select').change(function() {
+                var selVal = $(this).val();
+                sessionStorage.setItem("SelItem", selVal);
+
+            });}
+      </script>
+      <!-- set value of insta_user_id on selection -->
+      <script type="text/javascript">
+       var selected_account = sessionStorage.getItem("SelItem")
+       if ( selected_account ) {
+       $('#useraccount_select').val(selected_account);
+          var insta_user_id = document.getElementById("insta_user_id");
+          if (insta_user_id) {
+            insta_user_id.value = selected_account;
+          }
+       }
+       else if (!selected_account) {
+         document.getElementById("useraccount_select").selectedIndex = "0";
+         var val = document.getElementById("useraccount_select").value;
+         sessionStorage.setItem("SelItem", val);
+         var insta_user_id = document.getElementById("insta_user_id");
+         console.log(insta_user_id)
+          if (insta_user_id) {
+            insta_user_id.value = val;
+          }
+       }
+       status = $('#useraccount_select').find('option:selected').data("status");
+       login_status = $('#useraccount_select').find('option:selected').data("login_status");
+       if (status =="A" && login_status =="IN"){
+         $("#insta_tool").removeClass('hidden');
+       }
+      </script>
+      <!-- prevent page from re submitting same data on reload -->
+      <script>
+          if ( window.history.replaceState ) {
+              window.history.replaceState( null, null, window.location.href );
+          }
+      document.getElementById("instagram_activity").href = "/advance/dashboard/instagram_activity/" + sessionStorage.getItem("SelItem");
+      </script>
+      {% block script %}{% endblock %}
+   </body>
+</html>

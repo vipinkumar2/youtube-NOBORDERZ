@@ -1,0 +1,10 @@
+<script>
+   $('.check-item').change(function(){
+       var insta_user_id = $(this).val();
+       var stats_url = "/advance/dashboard/stats/" + insta_user_id
+       var logs_url = "/advance/dashboard/log/" + insta_user_id
+       $('#insta_user_id').val(insta_user_id);
+       $('#user_stats').attr('href', stats_url)
+       $('#user_logs').attr('href', logs_url)
+   })
+</script>

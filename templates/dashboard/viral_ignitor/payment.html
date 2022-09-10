@@ -1,0 +1,168 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>{% trans 'surviral' %}: {% trans 'surviralTitleText' %}</title>
+      <meta name="description" content="Posting Your Content is tedious and takes a long time, its much easier on to get the job done on the computer. Now you can post & schedule your instagram posts with just a few clicks.">
+      <meta name="keywords" content="Instagram Post Scheduler, Surviral Post Scheduler, Post Scheduler Application">
+      <link rel="icon" type="image/png" href="{% static 'svg/favicon.png' %}" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+      <!--Css-->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/awesome.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/flag-icon.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css//bootstrap.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/payment/style.css' %}">
+      <!--End Css-->
+      <!--Jquery-->
+      <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+      <script src="{% static 'js/core_post.js' %}"></script>
+      <!---End Jquery-->
+      <script type="text/javascript">
+         var token = 'd51985f35d28d79a6bf20c108f237188',
+             PATH  = '#',
+             BASE  = '#';
+         
+         document.onreadystatechange = function () {
+             var state = document.readyState
+             if (state == 'complete') {
+                 setTimeout(function(){
+                     document.getElementById('interactive');
+                     document.getElementById('loading-overplay').style.opacity ="0";
+                 },500);
+         
+                 setTimeout(function(){
+                     document.getElementById('loading-overplay').style.display ="none";
+                     document.getElementById('loading-overplay').style.opacity ="1";
+                 },1000);
+             }
+         }
+      </script>
+   </head>
+   <body class="payment">
+      <div class="loading-overplay" id="loading-overplay">
+         <div class='loader loader1'>
+            <div>
+               <div>
+                  <div>
+                     <div></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="bg">
+      </div>
+      <div class="wrapper">
+         <div class="header">
+            <div class="lable">{% if subscription_id %}Payment Success{%else%}{% trans 'makeAPayment' %}{%endif%}</div>
+            <div class="title">{{plan.name}}</div>
+         </div>
+         <div class="payment-info">
+            <div class="desc">{% trans 'totalPayment' %}</div>
+            <div class="price text-info m-b-10">${{plan.amount}}</div>
+            <div class="clearfix"></div>
+         </div>
+          {% if subscription_id %}
+         <div class="payment-method">
+            <div class="headline"> {% trans 'yourSubscripeitonPlanHasBeenActivated' %} </div>
+             <a href="/advance/dashboard/">{% trans 'home' %}</a>
+         </div>
+          {% else %}
+          <div class="payment-method">
+            <div class="credit-form__">
+            <div class="headline"><i class="fas fa-money-check text-info"></i> {% trans 'paymentMethod' %}</div>
+                <div class="error">{{message}}</div>
+         
+               <form action="" method="post" id="credit">
+                  {% csrf_token %}
+                    {% if cards %}
+                      <p><h4 class="d-inline pr-4">{% trans 'savedCards' %}</h4></p>
+                        <p class="error">{{message}}</p>
+                      {% for card in cards %}
+                      <div class="row">
+                        <div class="col-md-12 col-xs-9 p1px"><input type="radio" name="card_id" value="{{card.id}}" {% if forloop.first %}checked{%endif%} class=""> **** **** **** {{card.last_four}} {{card.brand}} </div><a href="?card={{card.id}}" class="delete_card">{% trans 'delete' %}</a>
+                      </div>
+                      {%endfor %}
+                      <input type="radio" id="new_card" name="card_id" value="other_card" class=""> {% trans 'otherCard' %}<br>
+                      <input class="cc-number col-md-12  hide card_input" maxlength="19" name="card_number" placeholder="{% trans 'cardNumber' %}" type="tel" required="required" disabled="disabled" value="{{card_number}}" />
+                      <input class="cc-expires col-md-12  hide card_input" maxlength="7" name="expiry" placeholder="MM / YY" type="tel" required="required" disabled="disabled" value="{{expiry}}"/>
+                      <input class="cc-cvc col-md-12  hide card_input" maxlength="4" name="cvv" placeholder="{% trans 'cvc' %}" type="tel" required="required" disabled="disabled" value="{{cvv}}" />
+
+                    {% else %}
+                      <div class="form-group">
+                        <label>{% trans 'cardInformation' %}</label>
+                        <input type="hidden" name="card_id" value="other_card">
+                        <input class="cc-number col-md-12  form-control" maxlength="19"  inputmode="numeric" name="card_number" placeholder="{% trans 'cardNumber' %}" type="tel" required="required" value="{{card_number}}" />
+                        <div class="cc-cvc-wrap">
+                        <div class="cc-cvc width50">
+                           <input class="cc-expires col-md-12  form-control" maxlength="7" name="expiry" placeholder="MM / YY" type="tel" required="required" value="{{expiry}}"/>
+                        </div>
+                        <div class="cc-cvc width50">
+                           <input class="cc-cvc col-md-12  form-control" maxlength="4" name="cvv" placeholder="{% trans 'cvc' %}" type="tel" required="required" value="{{cvv}}"/>
+                        </div>
+                        </div>
+                     </div>
+                        {% endif %}
+                        <div class="form-group">
+                           <label>{% trans 'name' %}</label>
+                           <input type="text" name="name" placeholder="" required="required" class="col-md-12  form-control" value="{{name}}">
+                         </div>
+                         <div class="form-group">
+                           <label>{% trans 'address' %}</label>
+                           <textarea name="line1" placeholder=" " required="required" class="col-md-12  form-control" rows="4">{{line1}}</textarea>
+                        </div>
+                        <div class="form-group">
+                           <label>{% trans 'countryOrRegion' %}</label>
+                    <select id="country" name="country" required="required" class="col-md-12  form-control">
+                        <option>AUSTRALIA</option>
+                        <option>AUSTRIA</option>
+                        <option>BELGIUM</option>
+                        <option>BRAZIL</option>
+                        <option>CANADA</option>
+                        <option>DENMARK</option>
+                        <option>FINLAND</option>
+                        <option>FRANCE</option>
+                        <option>GERMANY</option>
+                        <option>HONG KONG</option>
+                        <option>INDIA</option>
+                        <option>IRELAND</option>
+                        <option>JAPAN</option>
+                        <option>LUXEMBOURG</option>
+                        <option>MEXICO</option>
+                        <option>NETHERLANDS</option>
+                        <option>NEW ZEALAND</option>
+                        <option>NORWAY</option>
+                        <option>SINGAPORE</option>
+                        <option>SPAIN</option>
+                        <option>SWEDEN</option>
+                        <option>SWITZERLAND</option>
+                        <option>UNITED KINGDOM</option>
+                        <option>UNITED STATES</option>
+                        <option>ITALY</option>
+                        <option>PORTUGAL</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                   <input class="btn btn-info btn-payment" type="submit" value="Pay with card"/>
+                  </div>
+                </form>
+            </div>
+         </div>
+          {% endif %}
+      </div>
+      <script type="text/javascript" src="{% static 'js/izitoast.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/jquery.payment.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/core.js' %}"></script>
+        <script>
+            $(function () {
+              // Set up formatting for Credit Card fields
+              $("#credit .cc-number").formatCardNumber();
+              $("#credit .cc-expires").formatCardExpiry();
+              $("#credit .cc-cvc").formatCardCVC();
+            });
+        </script>
+   </body>
+</html>
+

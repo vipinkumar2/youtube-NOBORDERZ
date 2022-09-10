@@ -1,0 +1,179 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>{% trans 'surviral.io' %}</title>
+      <meta name="description" content="Posting Your Content is tedious and takes a long time, its much easier on to get the job done on the computer. Now you can post & schedule your instagram posts with just a few clicks.">
+      <meta name="keywords" content="Instagram Post Scheduler, Surviral Post Scheduler, Post Scheduler Application">
+      <link rel="icon" type="image/png" href="{% static 'svg/favicon.png' %}" />
+      <link rel="stylesheet" href="{% static 'css/flag-icon.css' %}">
+      <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/auth/style.css' %}" id="stylesheet">
+       <link rel="stylesheet" media="all" href="{% static '/select2/css/select2.min.css' %}"/>
+      <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+      <script type="text/javascript">
+         var token = 'd51985f35d28d79a6bf20c108f237188';
+         var PATH = '/';
+         var BASE = '/';
+         var FORMAT_DATE = 'dd/mm/yy';
+         var FORMAT_DATETIME = ["dd/mm/yy", "hh:mm TT"];
+         var LANGUAGE = '';
+
+         document.onreadystatechange = function () {
+             var state = document.readyState
+             if (state == 'complete') {
+                 setTimeout(function () {
+                     document.getElementById('interactive');
+                     document.getElementById('loading-overplay').style.opacity = "0";
+                 },500);
+
+                 setTimeout(function(){
+                     document.getElementById('loading-overplay').style.display ="none";
+                     document.getElementById('loading-overplay').style.opacity ="1";
+                 },1000);
+             }
+         }
+      </script>
+      <script type="text/javascript">
+         var pictureList = [
+             "{% static '/svg/en.svg'%}",
+             "{% static '/svg/ko.svg' %}",
+             "{% static '/svg/zh-hans.svg' %}",
+             "{% static '/svg/ja.svg' %}"
+             ];
+             $('#language').change(function () {
+                   var val = parseInt($('#language').val());
+                   $('img').attr("src",pictureList[val]);
+               });
+      </script>
+   </head>
+   <body>
+   <div class="lung-dropdown">
+               <div class="dropdown">
+                   {% get_current_language as LANGUAGE_CODE %}
+                   {% get_available_languages as LANGUAGES %}
+                   {% get_language_info_list for LANGUAGES as languages %}
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      <img src="https://cdn.angelium.net/xana/assets/images/flags/{{LANGUAGE_CODE}}.svg" alt="">
+                     </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      {% if LANGUAGE_CODE == "zh-hans"%}
+                       {% for language in languages %}
+                            <li><a href="{%if language.code != 'en' %}/{{ language.code }}{%endif%}{{ request.get_full_path|slice:'8:' }}" data-value="action"><img src="https://cdn.angelium.net/xana/assets/images/flags/{{language.code}}.svg" alt=""></a></li>
+                       {% endfor %}
+                      {% elif LANGUAGE_CODE == "en" and "/en/" != request.get_full_path|slice:':4' %}
+                       {% for language in languages %}
+                           <li><a href="{%if language.code != 'en' %}/{{ language.code }}{%endif%}{{ request.get_full_path}}" data-value="action"><img src="https://cdn.angelium.net/xana/assets/images/flags/{{language.code}}.svg" alt=""></a></li>
+                       {% endfor %}
+                      {%else%}
+                         {% for language in languages %}
+                             <li><a href="{%if language.code != 'en' %}/{{ language.code }}{%endif%}{{ request.get_full_path|slice:'3:' }}" data-value="action"><img src="https://cdn.angelium.net/xana/assets/images/flags/{{language.code}}.svg" alt=""></a></li>
+                         {% endfor %}
+                      {%endif %}
+                    </ul>
+               </div>
+          </div>
+      <div id="loading-overplay" class="spinner">
+         <div class="blob blob-0"></div>
+         <div class="blob blob-1"></div>
+         <div class="blob blob-2"></div>
+         <div class="blob blob-3"></div>
+         <div class="blob blob-4"></div>
+         <div class="blob blob-5"></div>
+       </div>
+      <div class="login-page">
+         <div class="login-main">
+            <div class="login-box">
+               <div class="login-logo">
+                  <a href="#">
+                  <img src="{%static 'svg/favicon.png' %}">
+                  </a>
+               </div>
+
+               {% for message in messages %}
+               <div class="alert {{ message.tags }} alert-dismissible message_block" role="alert">
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+                   {{ message | safe }}
+               </div>
+               {% endfor %}
+               <div class="login-form">
+                   <h3 class="fs-20 text-center mb-3">{%trans 'signIn' %}</h3>
+                  <form action="" method="POST">
+                     {% csrf_token %}
+                     <div class="form-group">
+                        <div class="input-group lang-center">
+                           <div class="input-group-prepend">
+                           </div>
+                        </div>
+                         <input type="hidden" name="language" value="{{get_current_language}}">
+                        <div class="input-group">
+                           <div class="input-group-prepend">
+                              <span class="input-group-text">
+                              <i class="far fa-envelope"></i>
+                              </span>
+                           </div>
+                           <input type="email" class="form-control" name="email" autocomplete="off" placeholder="{% trans 'email' %}" value="">
+                        </div>
+                        <div class="input-group">
+                           <div class="input-group-prepend">
+                              <span class="input-group-text">
+                              <i class="fas fa-lock"></i>
+                              </span>
+                           </div>
+                           <input type="password" class="form-control" name="password" autocomplete="off" placeholder="{% trans 'password' %}" value="">
+                        </div>
+                     </div>
+                     <div class="form-group wrap-m">
+                        <div class="wrap-c">
+                           <label class="i-checkbox i-checkbox--tick i-checkbox--brand m-r-10">
+                           <input type="checkbox" name="remember" value="1">{%trans 'rememberMe' %}<span></span>
+                           </label>
+                        </div>
+                        <div class="wrap-c fs-12">
+                           <a href="{% url 'forgot_password' %}" alt="">{%trans 'forgotPassword' %}</a>
+                        </div>
+                     </div>
+                     <span class="show-message"></span>
+                     <div class="text-center">
+                        <button type="submit" class="btn btn-info rounded-pill m-t-20 btn-loading d-none">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {%trans 'signUp' %} </button>
+                        <button type="submit" class="btn btn-info rounded-pill m-t-20 btn-no-loading"><i class="fas fa-sign-in-alt"></i> {%trans 'signIn' %}</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <div class="signup-ask text-center">
+               {% trans 'dontHaveAccount' %}  <a href="{% url 'signup' %}">{%trans 'signUp' %}</a>
+            </div>
+            </div>
+          <div class="login-bg">
+         </div>
+
+         </div>
+
+      </div>
+    <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/core.js' %}"></script>
+      <script src="{% static 'js/pure.js' %}"></script>
+        <script type="text/javascript" src="{% static '/select2/js/select2.full.min.js' %}"></script>
+      <script>
+      $(document).ready(function(){
+         window.setTimeout(function() {
+            $(".message_block").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+            });
+         }, 5000);
+         $(".lung-dropdown .dropdown-menu li a").click(function(){
+          $(this).parents(".dropdown").find('.btn').html($(this).html());
+          $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+        });
+      });
+      </script>
+   </body>
+</html>
+

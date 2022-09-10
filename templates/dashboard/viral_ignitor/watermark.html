@@ -1,0 +1,118 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static i18n %}
+{% block title %} Watermark {% endblock %}
+{% block content %}
+<script src="{% static 'js/core_post.js' %}"></script>
+<div class="wrapper">
+   <div class="subheader watermark">
+      <div class="wrap">
+         <div class="subheader-main">
+            <button class="btn btn-label-info m-r-10 subheader-toggle"><i class="fas fa-bars"></i></button>
+            <h3 class="title"><i class="text-info fas fa-medal"></i> {% trans  'watermark' %}</h3>
+         </div>
+      </div>
+   </div>
+   <div class="content-two-column watermark">
+      <div class="column-one nicescroll">
+         <div class="input-group box-search-one">
+            <input class="form-control search-input" type="text" autocomplete="off" placeholder="{% trans 'search' %}">
+            <span class="input-group-append">
+            <button class="btn" type="button">
+            <i class="fa fa-search"></i>
+            </button>
+            </span>
+         </div>
+         <div class="widget">
+            <div class="widget-list search-list">
+               <div class="widget-item widget-item-3 search-list active">
+                  <a href="#" class="actionItem"
+                     class="actionItem"
+                     data-result="html"
+                     data-content="column-two"
+                     href="#"
+                     data-history="#"
+                     data-call-after="Watermark.init();"
+                     >
+                     <div class="icon border"><i class="fas fa-medal"></i></div>
+                     <div class="content content-2">
+                        <div class="title fw-5">{% trans 'defaultWatermark' %}</div>
+                        <div class="desc">{% trans 'setDefaultWatermark' %}</div>
+                     </div>
+                  </a>
+               </div>
+               <div class="widget-item widget-item-3 search-list ">
+                  <a href="#" class="actionItem"
+                     class="actionItem"
+                     data-result="html"
+                     data-content="column-two"
+                     href="#"
+                     data-history="#"
+                     data-call-after="Watermark.init();"
+                     >
+                     <div class="icon"><img src="{% static 'img/2548c33df816bca1c7ba88753f0a3dcf.jpg' %}"></div>
+                     <div class="content content-2">
+                        <div class="title fw-5">Sayuri Kondo</div>
+                        <div class="desc">{% trans 'instagramProfiles' %}</div>
+                     </div>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="column-two nicescroll">
+         <div class="watermark-content row">
+            <div class="watermark-option col-md-8">
+               <div class="row">
+                  <div class="col-md-5 col-sm-5 m-b-25">
+                     <input type="text" name="ids" class="d-none watermark-ids" value="">
+                     <div class="watermark-image">
+                        <img class="watermark-bg" src="{% static 'img/bg-watermark.jpg' %}" >
+                        <img class="watermark-mask" src="{% static 'img/watermark.png' %}">
+                     </div>
+                  </div>
+                  <div class="col-md-7 col-sm-7 m-b-25">
+                     <div class="form-group">
+                        <span>{% trans 'position' %}</span>
+                        <div class="watermark-positions">
+                           <div class="watermark-position-item pos-lt " data-direction="lt"></div>
+                           <div class="watermark-position-item pos-ct " data-direction="ct"></div>
+                           <div class="watermark-position-item pos-rt " data-direction="rt"></div>
+                           <div class="watermark-position-item pos-lc " data-direction="lc"></div>
+                           <div class="watermark-position-item pos-cc " data-direction="cc"></div>
+                           <div class="watermark-position-item pos-rc " data-direction="rc"></div>
+                           <div class="watermark-position-item pos-lb active" data-direction="lb"></div>
+                           <div class="watermark-position-item pos-cb " data-direction="cb"></div>
+                           <div class="watermark-position-item pos-rb " data-direction="rb"></div>
+                           <input type="hidden" class="watermark-position form-control" name="position" value="lb">
+                        </div>
+                        <div class="clearfix"></div>
+                     </div>
+                     <div class="form-group">
+                        <span>{% trans 'size' %}</span>
+                        <input type="range" name="size" class="rangeslider d-none watermark-size" min="0" max="100" step="1" value="30" data-rangeslider data-orientation="vertical" >
+                     </div>
+                     <div class="form-group m-b-25">
+                        <span>{% trans 'transparent' %}</span>
+                        <input type="range" name="opacity" class="rangeslider d-none watermark-transparent" min="0" max="100" step="1" value="70" data-orientation="vertical" >
+                     </div>
+                     <div class="wrap-m">
+                        <div class=" wrap-c">
+                           <div class="btn-group" role="group">
+                              <button type="button" class="btn btn-label-info fileinput-button" >
+                              <i class="fas fa-upload"></i> {% trans 'upload' %}			        			<input id="watermark_upload" type="file" name="files[]">
+                              </button>
+                              <a href="#" data-confirm="Are you sure to delete this items?" data-id="" class="btn btn-label-danger actionItem" data-redirect=""><i class="far fa-trash-alt"></i> {% trans 'delete' %}</a>
+                           </div>
+                        </div>
+                        <div class=" wrap-c">
+                           <button type="submit" class="btn btn-info btn-upload-watermark"> {% trans 'save' %}</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

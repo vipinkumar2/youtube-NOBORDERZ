@@ -1,0 +1,31 @@
+{% extends 'dashboard/viral_ignitor/base.html' %}
+{% load static i18n %}
+{% block title %} Caption {% endblock %}
+{% block content %}
+<script src="{% static 'js/core_post.js' %}"></script>
+<div class="wrapper">
+   <div class="subheader caption">
+      <div class="wrap">
+         <div class="subheader-main">
+            <button class="btn btn-label-info m-r-10 subheader-toggle"><i class="fas fa-bars"></i></button>
+            <h3 class="title"><i class="text-info far fa-list-alt"></i> {% trans 'caption' %}</h3>
+         </div>
+         <div class="subheader-toolbar">
+            <div class="btn-group" role="group">
+               <a class="btn btn-secondary actionItem" href="#" >
+               <i class="fas fa-plus"></i> {% trans 'addNew' %}	    </a>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="content-one-column nicescroll caption">
+      <div class="wrap-m h-100">
+         <div class="empty">
+            <div class="icon"></div>
+            <a class="btn btn-info actionItem" href="#">
+            <i class="fas fa-plus"></i> {% trans 'addNew' %} </a>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
