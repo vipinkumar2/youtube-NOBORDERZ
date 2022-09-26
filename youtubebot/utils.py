@@ -8,7 +8,7 @@ import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import google.oauth2.credentials
 from oauth2client import GOOGLE_REVOKE_URI, GOOGLE_TOKEN_URI, client
-
+from log import LOGGER  
 from youtubebot.models import *
 from googleapiclient.http import MediaFileUpload
 from youtubebot.models import YoutubeAccount, YoutubeVideoUrl
@@ -78,6 +78,8 @@ def video_like(credential, video_url):
             api_service_name, api_version, credentials=credentials
         )
         video_id = video_url.split("=")[1]
+        video_id = video_id.split('&')[0]
+        
         try:
             like = youtube.videos().rate(rating="like", id=video_id).execute()
             logging.info(
@@ -125,6 +127,8 @@ def video_dislike(credential, video_url):
             api_service_name, api_version, credentials=credentials
         )
         video_id = video_url.split("=")[1]
+        video_id = video_id.split('&')[0]
+        
         try:
             like = youtube.videos().rate(rating="dislike", id=video_id).execute()
             logging.info(
@@ -170,23 +174,27 @@ def comment_on_video(credential, video_url, comments):
             api_service_name, api_version, credentials=credentials
         )
         video_id = video_url.split("=")[1]
+        video_id = video_id.split('&')[0]
         try:
-            comment = (
-                youtube.commentThreads()
-                .insert(
-                    part="snippet",
-                    body={
-                        "snippet": {
-                            "videoId": video_id,
-                            "topLevelComment": {"snippet": {"textOriginal": comments}},
-                        }
-                    },
-                )
-                .execute()
-            )
             logging.info(
                 "=====================  comment on video success=============================="
             )
+            try:
+                comment = (
+                    youtube.commentThreads()
+                    .insert(
+                        part="snippet",
+                        body={
+                            "snippet": {
+                                "videoId": video_id,
+                                "topLevelComment": {"snippet": {"textOriginal": comments}},
+                            }
+                        },
+                    )
+                    .execute()
+                )
+            except Exception as e :
+                print(e)
             print("Done")
             return True
         except Exception as ex:
@@ -318,6 +326,7 @@ def video_upload(credential, channel_id, video_id, title, description):
 
 def views_video(video_url, video_views):
     try:
+        print(video_views,': --------------1-----------------')
         for i in range(int(video_views)):
             CONTENT_LIST = [{"content_type": "text", "data": "Lorem ipsum"}]
             chrome_options = Options()

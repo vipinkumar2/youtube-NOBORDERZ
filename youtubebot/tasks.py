@@ -1,3 +1,4 @@
+from log import LOGGER
 from background_task import background
 import random
 import time
@@ -115,7 +116,7 @@ def dislike_video_yt(job_id):
             jobs.group_status = dislike_status
             jobs.status="C"
             jobs.save()
-            logging.info("=====================  video dislike success using group==============================")
+            LOGGER.info("=====================  video dislike success using group==============================")
         else:
             wait = time_sleep()
             time.sleep(wait)
@@ -136,7 +137,7 @@ def dislike_video_yt(job_id):
 
 
 @background(queue="yt_job")
-def sunscribe_channel_yt(job_id):
+def sunscribe_channel_yt(job_id,schedule="", verbose_name="", creator=""):
     jobs = YoutubeJob.objects.get(id=job_id)
     jobs.status="I"
     jobs.save()

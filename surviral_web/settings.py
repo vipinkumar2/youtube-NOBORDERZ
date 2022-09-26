@@ -99,7 +99,7 @@ WSGI_APPLICATION = "surviral_web.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("SURVIRAL_DATABASE_NAME", "surviral_copy"),
+        "NAME": os.getenv("SURVIRAL_DATABASE_NAME", "surviral"),
         "USER": os.getenv("SURVIRAL_DATABASE_USER", "postgres"),
         "PASSWORD": os.getenv("SURVIRAL_DATABASE_PASSWORD", "0000"),
         "HOST": os.getenv("DATABASE_HOST", "localhost"),

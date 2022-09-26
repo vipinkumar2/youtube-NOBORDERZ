@@ -2713,6 +2713,7 @@ class CommentOnYoutubeVideoAPIView(TemplateView):
                     status="P",
                     group=group,
                 )
+                
                 comment_video_yt(
                     job.id, schedule=now, verbose_name=job.job_type, creator=job.user
                 )
@@ -2763,7 +2764,8 @@ class YoutubeManagerView(TemplateView):
                 "https://www.googleapis.com/auth/userinfo.profile",
             ],
         )
-        flow.redirect_uri = os.environ.get("YT_REDIRECT_URL")
+        flow.redirect_uri = "http://localhost:8000/en/advance/dashboard/youtube_callback/"
+        # flow.redirect_uri = os.environ.get("YT_REDIRECT_URL")
         authorization_url, state = flow.authorization_url(
             access_type="offline", approval_prompt="auto", include_granted_scopes="true"
         )
@@ -2850,7 +2852,8 @@ def youtube_callbackurl(request):
             "https://www.googleapis.com/auth/userinfo.profile",
         ],
     )
-    flow.redirect_uri = os.environ.get("YT_REDIRECT_URL")
+    flow.redirect_uri = "http://localhost:8000/en/advance/dashboard/youtube_callback/"
+    # flow.redirect_uri = os.environ.get("YT_REDIRECT_URL")
     flow.fetch_token(code=auth_code)
     credentials = flow.credentials
     user_info_service = googleapiclient.discovery.build(

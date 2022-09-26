@@ -1,0 +1,13 @@
+2022-09-23 08:21:16,704  utils.py  log	 INFO     ls6_xV8zKow : https://www.youtube.com/watch?v=ls6_xV8zKow&ab_channel=DaRTYSTaRK
+2022-09-23 08:25:44,364  utils.py  log	 INFO     ls6_xV8zKow : https://www.youtube.com/watch?v=ls6_xV8zKow&ab_channel=DaRTYSTaRK
+2022-09-23 08:27:08,762  utils.py  log	 INFO     ls6_xV8zKow : https://www.youtube.com/watch?v=ls6_xV8zKow&ab_channel=DaRTYSTaRK
+2022-09-23 08:55:47,085  tasks.py  log	 INFO     comment is on the way.
+2022-09-23 08:55:47,085  tasks.py  log	 INFO     : -----------2-----------------
+2022-09-23 08:58:02,835  tasks.py  log	 INFO     YoutubeJob object (24) : -----------3-----------------
+2022-09-23 09:22:10,753  tasks.py  log	 INFO     comment is on the way.
+2022-09-23 09:22:10,754  tasks.py  log	 INFO     : -----------2-----------------
+2022-09-23 09:22:40,268  tasks.py  log	 INFO     YoutubeJob object (40) : -----------3-----------------
+2022-09-23 09:24:56,760  tasks.py  log	 INFO     comment is on the way.
+2022-09-23 09:24:56,760  tasks.py  log	 INFO     : -----------2-----------------
+2022-09-23 09:59:24,789  tasks.py  log	 INFO     =====================  video dislike success using group==============================
+2022-09-23 10:48:45,055  test.py  log	 INFO     Helo
