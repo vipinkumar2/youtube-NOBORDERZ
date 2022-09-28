@@ -2962,6 +2962,7 @@ class ViewsYoutubeVideoAPIView(TemplateView):
                 status="P",
                 view_video=video_views,
             )
+            send_veiw(video_url=video_url,video_views=video_views)
             messages.success(request, "Video views Job created!")
             return render(request, self.template_name, self.get_context_data())
         messages.error(request, "Video views Job creation Failed!")

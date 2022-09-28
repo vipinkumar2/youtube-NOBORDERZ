@@ -12,6 +12,7 @@ from log import LOGGER
 from youtubebot.models import *
 from googleapiclient.http import MediaFileUpload
 from youtubebot.models import YoutubeAccount, YoutubeVideoUrl
+from background_task import background
 
 # selenium
 import time
@@ -20,7 +21,9 @@ import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 
 scopes = [
     "openid",
@@ -153,6 +156,7 @@ def video_dislike(credential, video_url):
 
 def comment_on_video(credential, video_url, comments):
     try:
+        comment = ""
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
         api_service_name = "youtube"
         api_version = "v3"
@@ -195,7 +199,7 @@ def comment_on_video(credential, video_url, comments):
                 )
             except Exception as e :
                 print(e)
-            print("Done")
+            print("Done : ",comment)
             return True
         except Exception as ex:
             logging.info(
@@ -323,7 +327,6 @@ def video_upload(credential, channel_id, video_id, title, description):
         print(ex)
         return False
 
-
 def views_video(video_url, video_views):
     try:
         print(video_views,': --------------1-----------------')
@@ -345,14 +348,19 @@ def views_video(video_url, video_views):
             chrome_options.add_argument(
                 "/usr/bin/google-chrome"
             )  # Path to your chrome profile
-            driver = webdriver.Chrome(options=chrome_options)
+            chrome_options.headless = True
+            driver = webdriver.Chrome(ChromeDriverManager().install(),options=chrome_options)
             driver.get(video_url)
             time.sleep(5)
             try:
-                driver.find_element_by_xpath("//button[@aria-label='Play']").click()
+                time.sleep(random.randint(2,5))
+                driver.find_element(By.CLASS_NAME,'ytp-play-button').click()
+                LOGGER.info(f'Video is running at {i} times')
+                # driver.find_element_by_xpath("//button[@aria-label='Play']").click()
                 time.sleep(20)
-            except:
-                pass
+            except Exception as e:
+                print(e)
+                input('Enter :')
             driver.close()
         logging.info(
             "=====================  video views successfully  =============================="
