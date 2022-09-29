@@ -15,7 +15,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def get_number(pid='1',country = 'sa'):
+def get_number(pid='1',country = 'my'):
     while True:
         url = "http://api.getsmscode.com/vndo.php?"
 
@@ -38,7 +38,7 @@ def get_number(pid='1',country = 'sa'):
         else:break
     return response
 
-def get_sms(phone_number, pid='1',country = 'sa'):
+def get_sms(phone_number, pid='1',country = 'my'):
     url = "http://api.getsmscode.com/vndo.php?"
     payload = {
         "action": "getsms",
@@ -72,7 +72,7 @@ def get_sms(phone_number, pid='1',country = 'sa'):
         #     return otp
         time.sleep(4)
 
-def ban_number(phone_number, pid='8',country = 'sa'):
+def ban_number(phone_number, pid='8',country = 'my'):
     url = "http://api.getsmscode.com/vndo.php?"
     payload = {
         "action": "addblack",
@@ -81,7 +81,7 @@ def ban_number(phone_number, pid='8',country = 'sa'):
         "pid": pid,
         "mobile": phone_number,
         "author": "pay@noborders.net",
-        "cocode":country
+        # "cocode":country
     }
     payload = urlencode(payload)
     full_url = url + payload
@@ -103,44 +103,45 @@ for i in range(5):
         pluse_number = f'+{number}'
         print(number)
         change_number = False
-    driver.get('http://www.google.com')
+    for _ in range(5):
+        driver.get('http://www.google.com')
 
+        input('dfvd')
+        time.sleep(4)
+        driver.find_element(By.CLASS_NAME,'gb_2').click()
+        time.sleep(4)
+        driver.find_element(By.XPATH,'//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div[2]/div/div[2]/div/div/div[1]/div/button').click()
+        time.sleep(4)
+        driver.find_element(By.XPATH,'//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/ul/li[1]').click()
 
-    time.sleep(4)
-    driver.find_element(By.CLASS_NAME,'gb_2').click()
-    time.sleep(4)
-    driver.find_element(By.XPATH,'//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div[2]/div/div[2]/div/div/div[1]/div/button').click()
-    time.sleep(4)
-    driver.find_element(By.XPATH,'//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/ul/li[1]').click()
+        f_name = driver.find_element(By.XPATH,'//*[@id="firstName"]').send_keys('fadudsdhgfkdaf')
+        f_name = driver.find_element(By.XPATH,'//*[@id="lastName"]').send_keys('faduhgfksadfdsadadaf')
+        f_name = driver.find_element(By.XPATH,'//*[@id="username"]').send_keys('faduhgfkddsdsadadaf')
+        f_name = driver.find_element(By.XPATH,'//*[@id="passwd"]/div[1]/div/div[1]/input').send_keys('Riken@123')
+        f_name = driver.find_element(By.XPATH,'//*[@id="confirm-passwd"]/div[1]/div/div[1]/input').send_keys('Riken@123')
+        driver.find_element(By.XPATH,'//*[@id="accountDetailsNext"]/div/button').click()
+        time.sleep(5)
+        # add + before number
 
-    f_name = driver.find_element(By.XPATH,'//*[@id="firstName"]').send_keys('faduhgfkdaf')
-    f_name = driver.find_element(By.XPATH,'//*[@id="lastName"]').send_keys('faduhgfkdsadadaf')
-    f_name = driver.find_element(By.XPATH,'//*[@id="username"]').send_keys('faduhgfkdsadadaf')
-    f_name = driver.find_element(By.XPATH,'//*[@id="passwd"]/div[1]/div/div[1]/input').send_keys('Riken@123')
-    f_name = driver.find_element(By.XPATH,'//*[@id="confirm-passwd"]/div[1]/div/div[1]/input').send_keys('Riken@123')
-    driver.find_element(By.XPATH,'//*[@id="accountDetailsNext"]/div/button').click()
-    time.sleep(5)
-    # add + before number
-
-
-    time.sleep(4)
-    driver.find_element(By.XPATH,'//*[@id="phoneNumberId"]').send_keys(pluse_number)
-    driver.find_element(By.XPATH,'//*[@id="view_container"]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button').click()
-    try: 
-        phone_notaccepted = driver.find_element(By.CLASS_NAME,'o6cuMc')
-        if phone_notaccepted :
-            change_number = True
-            ban_number(number)
+        time.sleep(4)
+        driver.find_element(By.XPATH,'//*[@id="phoneNumberId"]').send_keys(pluse_number)
+        driver.find_element(By.XPATH,'//*[@id="view_container"]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button').click()
+        time.sleep(10)
+        try: 
+            phone_notaccepted = driver.find_element(By.CLASS_NAME,'o6cuMc')
+            if phone_notaccepted : ...
+                # change_number = True
+                # ban_number(number)
             continue
-    except Exception as e:...
+        except Exception as e:...
     
     # input('Enter 2:')
     
-    time.sleep(10)
     number_otp = get_sms(number)
     print(number_otp,':  -----------1---------')
     if not number_otp : 
         change_number = True
+        ban_number(number)
         continue
     driver.find_element(By.XPATH,'//*[@id="code"]').send_keys(number_otp)
     time.sleep(4)
