@@ -8,11 +8,14 @@ import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import google.oauth2.credentials
 from oauth2client import GOOGLE_REVOKE_URI, GOOGLE_TOKEN_URI, client
+import requests
 from log import LOGGER  
 from youtubebot.models import *
 from googleapiclient.http import MediaFileUpload
 from youtubebot.models import YoutubeAccount, YoutubeVideoUrl
 from background_task import background
+from dotenv import load_dotenv; load_dotenv()
+
 
 # selenium
 import time
@@ -327,7 +330,8 @@ def video_upload(credential, channel_id, video_id, title, description):
         print(ex)
         return False
 
-def views_video(video_url, video_views):
+def views_video_by_selenium(video_url, video_views):
+    '''This function need to call when we will use chrom driver to send views else dont need to'''
     try:
         print(video_views,': --------------1-----------------')
         for i in range(int(video_views)):
@@ -374,3 +378,52 @@ def views_video(video_url, video_views):
         logging.info(str(ex))
         print(ex)
         return False
+
+
+def views_video(video_url, video_views) :
+    '''This function id for sending views by socialbhai api'''
+
+    
+    
+    try: 
+        url = os.getenv('SOCIALBHAI_URL')
+        key = os.getenv('SOCIALBHAI_KEY')
+        
+        
+        # parameters = {
+        #         'key' : key,
+        #         'action' : 'add',
+        #         'service' :	'2582',
+        #         'link' :	video_url,
+        #         'quantity' : video_views,
+        #     }
+        
+        
+        
+        parameters = {
+                'key' : key,
+                'action' : 'balance',
+            }
+        
+        response = requests.post(url=url,params=parameters)
+        print(response.text)
+        response = response.json()
+        print(response)
+        if response['status'] == 'success' :
+            return True
+        
+        
+        
+        logging.info(
+            "=====================  video views successfully  =============================="
+        )
+        print("video views done")
+        return True
+    except Exception as ex:
+        logging.info(
+            "===================== video views errors =============================="
+        )
+        logging.info(str(ex))
+        print(ex)
+        return False
+    

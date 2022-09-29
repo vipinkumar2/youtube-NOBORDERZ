@@ -174,5 +174,5 @@ def sunscribe_channel_yt(job_id,schedule="", verbose_name="", creator=""):
 
 # @background(queue="yt_job")
 def send_veiw(video_url, video_views):
-    views_video(video_url, video_views)
+    return views_video(video_url, video_views)
     

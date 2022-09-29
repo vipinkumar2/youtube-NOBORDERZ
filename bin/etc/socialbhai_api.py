@@ -17,6 +17,17 @@ parameters = {
     'interval' : INTERVAL_TIME
 }
 
-r = requests.post(URL,params= parameters)
-print(r)
-print(r.text)
+# r = requests.post(URL,params= parameters)
+# print(r)
+# print(r.text)
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+print(os.environ.get("STRIPE_SECRET_KEY"))
+print(os.getenv('URLLL'))
+GCP_PROJECT_ID = os.getenv('GCP_PROJECT_ID')
+SERVICE_ACCOUNT_FILE = os.getenv('SERVICE_ACCOUNT_FILE')
+STORAGE_BUCKET_NAME = os.getenv('STORAGE_BUCKET_NAME')
+print(GCP_PROJECT_ID)

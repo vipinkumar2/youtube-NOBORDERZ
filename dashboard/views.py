@@ -2962,10 +2962,14 @@ class ViewsYoutubeVideoAPIView(TemplateView):
                 status="P",
                 view_video=video_views,
             )
-            send_veiw(video_url=video_url,video_views=video_views)
-            messages.success(request, "Video views Job created!")
-            return render(request, self.template_name, self.get_context_data())
-        messages.error(request, "Video views Job creation Failed!")
+            min_views = os.getenv('MIN_YT_SENT_VIEW_LIMIT')
+            if int(video_views) < int(min_views) : 
+                messages.error(request, f"Please send views more than {min_views} !")
+            else : 
+                send_veiw(video_url=video_url,video_views=video_views)
+                messages.success(request, "Video views Job created!")
+        else : 
+            messages.error(request, "Video views Job creation Failed!")
         return render(request, self.template_name, self.get_context_data())
 
 
