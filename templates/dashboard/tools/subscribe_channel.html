@@ -37,43 +37,26 @@
             {% csrf_token %}
             <div class="row">
                <div class="col-md-12">
-                <div class="caption m-t-15">
-                     <div class="form-group">
-                       <label for="account">Group</label>
-                       <select class="select form-control" id="group_name" name="group_name">
-                         <option value="">--- Subscribe Channel with a Group ---</option>
-                         {% for group in user_groups %}
-                           <option value="{{group.id}}">{{group.name}}</option>
-                         {% endfor %}
-                       </select>
-                     </div>
-                  </div>
-                  <div class="caption m-t-15">
-                     <div class="form-group">
-                       <label for="account">Account</label>
-                       <select class="select form-control" name="youtube_email">
-                         <option value="">--- Subscribe Channel with a Account ---</option>
-                         {% for account in user_accounts %}
-                           <option value="{{account.id}}">{{account.email}}</option>
-                         {% endfor %}
-                       </select>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label for="channel_id">{% trans 'channelId' %}</label>
-                     <input id="channel_id" type="text" class="form-control" name="channel_id" placeholder="{% trans 'enterChannelId' %}" required="True" required="required"/>
-                  </div>
-                  <div class="form-group">
-                     <input type="checkbox" id="subscrib_channel" name="subscrib_channel" value="True">
-                  <label for="like_post"> {% trans 'subscribe' %}</label><br>
-                  </div>
+                  <div class="col-md-12">
+                  
 
-                  <div class="form-group">
-                  <span>{% trans 'currentTimezone' %}: {{user.timezone}}</span><a href="{% url 'account' %}" style="float: right;"><i class="far fa-edit"></i> {% trans 'edit' %}</a>
-                  </div>
-                  <input type="hidden" name="timezone" value="{{user.timezone}}">
-                  <input type="hidden" name="admin_user_id" value="{{ user.id }}">
-                  <button type="submit" class="btn btn-primary">{% trans 'submit' %}</button>
+                     <div class="form-group">
+                        <label for="video_url">{% trans 'Video url' %}</label>
+                        <input id="video_url" type="text" class="form-control" name="video_url" placeholder="{% trans 'Enter Video Url' %}" required="True" required="required"/>
+                     </div>
+                     <div class="form-group">
+                        <label for="code">{% trans 'Subscribes' %}</label>
+                        <input type="number" class="form-control" name="your_subscribes" placeholder="{% trans 'enter number of Subscribes ' %}" required="True" min="1" />
+                     </div>
+                     <div class="form-group">
+                        <span>{% trans 'currentTimezone' %}: {{user.timezone}}</span><a href="{% url 'account' %}" style="float: right;"><i class="far fa-edit"></i> {% trans 'edit' %}</a>
+                     </div>
+                     <input type="hidden" name="timezone" value="{{user.timezone}}">
+                     <input type="hidden" name="admin_user_id" value="{{ user.id }}">
+                     <input type="hidden" id="insta_user_id" name="insta_user_id">
+                     <button type="submit" class="btn btn-primary">{% trans 'submit' %}</button>
+   
+   
                </div>
             </div>
          </form>

@@ -37,18 +37,41 @@
             {% csrf_token %}
             <div class="row">
                <div class="col-md-12">
+                <div class="caption m-t-15">
+                     <div class="form-group">
+                       <label for="account">Group</label>
+                       <select class="select form-control" id="group_name" name="group_name">
+                         <option value="">--- Comment with a Group ---</option>
+                         {% for group in user_groups %}
+                           <option value="{{group.id}}">{{group.name}}</option>
+                         {% endfor %}
+                       </select>
+                     </div>
+                  </div>
+                  <div class="caption m-t-15">
+                     <div class="form-group">
+                       <label for="account">Account</label>
+                       <select class="select form-control" name="youtube_email">
+                         <option value="">--- Comment with a Account ---</option>
+                         {% for account in user_accounts %}
+                           <option value="{{account.id}}">{{account.email}}</option>
+                         {% endfor %}
+                       </select>
+                     </div>
+                  </div>
                   <div class="form-group">
                      <label for="video_url">{% trans 'Video url' %}</label>
                      <input id="video_url" type="text" class="form-control" name="video_url" placeholder="{% trans 'Enter Video Url' %}" required="True" required="required"/>
                   </div>
-                   <div class="form-group">
-                     <label for="list">{% trans 'Comments' %}</label>
-                     <input type="text" class="form-control" name="your_cooment_list" placeholder="{% trans 'enter the list of comments ' %}" required="True" min="1" />
+                   <!-- <div class="form-group">
+                     <label for="code">{% trans 'yourComment' %}</label>
+                     <input type="text" class="form-control" name="your_cmnt" placeholder="{% trans 'enterCommentHere' %}" required="True"/>
+                  </div> -->
+                  <div class="form-group">
+                     <input type="checkbox" id="your_cmnt" name="your_cmnt" value="True">
+                  <label for="like_post"> {% trans 'comment' %}</label><br>
                   </div>
-                   <div class="form-group">
-                     <label for="code">{% trans 'Comment number' %}</label>
-                     <input type="number" class="form-control" name="your_comment" placeholder="{% trans 'enter number of comments ' %}" required="True" min="1" />
-                  </div>
+
                   <div class="form-group">
                   <span>{% trans 'currentTimezone' %}: {{user.timezone}}</span><a href="{% url 'account' %}" style="float: right;"><i class="far fa-edit"></i> {% trans 'edit' %}</a>
                   </div>
