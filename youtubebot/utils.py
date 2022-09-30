@@ -390,20 +390,20 @@ def views_video(video_url, video_views) :
         key = os.getenv('SOCIALBHAI_KEY')
         
         
-        # parameters = {
-        #         'key' : key,
-        #         'action' : 'add',
-        #         'service' :	'2582',
-        #         'link' :	video_url,
-        #         'quantity' : video_views,
-        #     }
-        
-        
-        
         parameters = {
                 'key' : key,
-                'action' : 'balance',
+                'action' : 'add',
+                'service' :	'2582',
+                'link' :	video_url,
+                'quantity' : video_views,
             }
+        
+        
+        
+        # parameters = {
+        #         'key' : key,
+        #         'action' : 'balance',
+        #     }
         
         response = requests.post(url=url,params=parameters)
         print(response.text)
@@ -411,7 +411,7 @@ def views_video(video_url, video_views) :
         print(response)
         if response['status'] == 'success' :
             return True
-        
+        else : return response
         
         
         logging.info(

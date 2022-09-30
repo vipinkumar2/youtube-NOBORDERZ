@@ -2631,54 +2631,108 @@ class LikeOnYoutubeVideoAPIView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        user_email = self.request.POST.get("youtube_email", None)
-        lik_option = self.request.POST.get("like_video", None)
+        
+        
+        
+        
+        # ----------------------------------------------------------------------
+        # for sending likes by social bhai api
+        
+        video_likes = self.request.POST.get("your_likes", None)
         admin_id = self.request.POST.get("admin_user_id")
         timezone = self.request.POST.get("timezone")
-        user = self.request.user
-        groups = self.request.POST.get("group_name", None)
         video_url = self.request.POST.get("video_url", None)
-        now = datetime.datetime.now(pytz.timezone("UTC"))
-        try:
-            if groups and lik_option:
-                group = YoutubeGroup.objects.get(id=groups)
-                members = YoutubeAccount.objects.filter(group=group)
-                job = YoutubeJob.objects.create(
-                    user=user,
-                    video_url=video_url,
-                    job_type="LIKE",
-                    status="P",
-                    group=group,
-                )
-                # like_on_video.delay(job.id)
-                like_video_yt(
-                    job.id, schedule=now, verbose_name=job.job_type, creator=job.user
-                )
-                messages.success(request, "Like Video Job created Using Group!")
-                return render(request, self.template_name, self.get_context_data())
-            elif user_email and lik_option:
-                youtube_account = YoutubeAccount.objects.filter(id=user_email).first()
-                job = YoutubeJob.objects.create(
-                    user=user,
-                    video_url=video_url,
-                    job_type="LIKE",
-                    status="P",
-                    accounts=youtube_account,
-                )
-                # like_on_video.delay(job.id)
-                like_video_yt(
-                    job.id, schedule=now, verbose_name=job.job_type, creator=job.user
-                )
-                messages.success(request, "Like Video Job created Using Accounts!")
-                return render(request, self.template_name, self.get_context_data())
-            else:
-                messages.error(request, "Select accounts or like checkbox")
-                return render(request, self.template_name, self.get_context_data())
-        except Exception as e:
-            print(e)
-            messages.error(request, "There was an error while creating job.")
-            return render(request, self.template_name, {})
+        user = self.request.user
+        if video_likes and video_url:
+            YoutubeJob.objects.create(
+                user=user,
+                video_url=video_url,
+                job_type="VIEW_VIDEO",
+                status="P",
+                view_video=video_likes,
+            )
+            min_views = os.getenv('MIN_YT_SENT_LIKE_LIMIT')
+            url = os.getenv('SOCIALBHAI_URL')
+            key = os.getenv('SOCIALBHAI_KEY')
+            action_id = os.getenv('SOCIALBHAI_LIKE_ACTION_ID')
+            
+            parameters = {
+                'key' : key,
+                'action' : 'add',
+                'service' :	action_id,
+                'link' :	video_url,
+                'quantity' : video_likes,
+            }
+            response = requests.post(url=url,params=parameters)
+            response = response.json()
+            if response['status'] == 'success' :
+                messages.success(request, f"{response['status']}")
+            elif response['error'] :        
+                messages.error(request, f"{response['error']}!")
+                
+        else : 
+            messages.error(request, "Video views Job creation Failed!")
+        return render(request, self.template_name, self.get_context_data())
+        
+        
+        # ----------------------------------------------------------------------
+        
+        
+        
+        
+        # ----------------------------------------------------------------------
+        # for sending like by own yt accounts and driver
+        
+        # user_email = self.request.POST.get("youtube_email", None)
+        # lik_option = self.request.POST.get("like_video", None)
+        # admin_id = self.request.POST.get("admin_user_id")
+        # timezone = self.request.POST.get("timezone")
+        # user = self.request.user
+        # groups = self.request.POST.get("group_name", None)
+        # video_url = self.request.POST.get("video_url", None)
+        # now = datetime.datetime.now(pytz.timezone("UTC"))
+        # try:
+        #     if groups and lik_option:
+        #         group = YoutubeGroup.objects.get(id=groups)
+        #         members = YoutubeAccount.objects.filter(group=group)
+        #         job = YoutubeJob.objects.create(
+        #             user=user,
+        #             video_url=video_url,
+        #             job_type="LIKE",
+        #             status="P",
+        #             group=group,
+        #         )
+        #         # like_on_video.delay(job.id)
+        #         like_video_yt(
+        #             job.id, schedule=now, verbose_name=job.job_type, creator=job.user
+        #         )
+                
+        #         messages.success(request, "Like Video Job created Using Group!")
+        #         return render(request, self.template_name, self.get_context_data())
+        #     elif user_email and lik_option:
+        #         youtube_account = YoutubeAccount.objects.filter(id=user_email).first()
+        #         job = YoutubeJob.objects.create(
+        #             user=user,
+        #             video_url=video_url,
+        #             job_type="LIKE",
+        #             status="P",
+        #             accounts=youtube_account,
+        #         )
+        #         # like_on_video.delay(job.id)
+        #         like_video_yt(
+        #             job.id, schedule=now, verbose_name=job.job_type, creator=job.user
+        #         )
+        #         messages.success(request, "Like Video Job created Using Accounts!")
+        #         return render(request, self.template_name, self.get_context_data())
+        #     else:
+        #         messages.error(request, "Select accounts or like checkbox")
+        #         return render(request, self.template_name, self.get_context_data())
+        # except Exception as e:
+        #     print(e)
+        #     messages.error(request, "There was an error while creating job.")
+        #     return render(request, self.template_name, {})
 
+        # ----------------------------------------------------------------------
 
 class CommentOnYoutubeVideoAPIView(TemplateView):
     template_name = "dashboard/tools/youtube_cmnt.html"
@@ -2963,11 +3017,37 @@ class ViewsYoutubeVideoAPIView(TemplateView):
                 view_video=video_views,
             )
             min_views = os.getenv('MIN_YT_SENT_VIEW_LIMIT')
-            if int(video_views) < int(min_views) : 
-                messages.error(request, f"Please send views more than {min_views} !")
-            else : 
-                send_veiw(video_url=video_url,video_views=video_views)
-                messages.success(request, "Video views Job created!")
+            url = os.getenv('SOCIALBHAI_URL')
+            key = os.getenv('SOCIALBHAI_KEY')
+            action_id = os.getenv('SOCIALBHAI_VIEW_ACTION_ID')
+            
+            parameters = {
+                'key' : key,
+                'action' : 'add',
+                'service' :	action_id,
+                'link' :	video_url,
+                'quantity' : video_views,
+            }
+            response = requests.post(url=url,params=parameters)
+            response = response.json()
+            
+            if response['status'] == 'success' :
+                messages.success(request, f"{response['status']}")
+            if response['error'] :        
+                messages.error(request, f"{response['error']}!")
+                
+            # -------------------------------------------------------------------
+            
+            # this is used for when we wants to send like throught the chrome driver.
+            
+            # min_views = 0
+            # if int(video_views) < int(min_views) : 
+            #     messages.error(request, f"Please send views more than {min_views} !")
+            # else : 
+                # send_view(video_url=video_url,video_views=video_views)
+            #     messages.success(request, "Video views Job created!")
+            
+            # -------------------------------------------------------------------
         else : 
             messages.error(request, "Video views Job creation Failed!")
         return render(request, self.template_name, self.get_context_data())

@@ -55,6 +55,10 @@ def like_video_yt(job_id):
         jobs.status = "F"
         jobs.save()
 
+def socialbhai_like_video_yt(job_id):
+    jobs = YoutubeJob.objects.get(id=job_id)
+    jobs.status = "I"
+    jobs.save()
 
 @background(queue="yt_job")
 def comment_video_yt(job_id):
@@ -172,7 +176,7 @@ def sunscribe_channel_yt(job_id,schedule="", verbose_name="", creator=""):
         jobs.status = "F"
         jobs.save()
 
-# @background(queue="yt_job")
-def send_veiw(video_url, video_views):
+@background(queue="yt_job")
+def send_view(video_url, video_views):
     return views_video(video_url, video_views)
     
