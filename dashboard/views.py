@@ -37,7 +37,11 @@ from youtubebot.utils import (
     video_like,
     comment_on_video,
     subscribe_channel,
-    video_dislike,
+    video_dislike,      
+    
+    
+    
+    
     views_video,
     video_upload,
 )
@@ -2772,14 +2776,25 @@ class CommentOnYoutubeVideoAPIView(TemplateView):
             
             parameters = {
                 'key' : key,
-                'action' : 'add',
-                'service' :	action_id,
-                'link' :	video_url,
-                'quantity' : video_comment,
+                'action' : 'balance'
             }
+            # parameters = {
+            #     'key' : key,
+            #     'action' : 'add',
+            #     'service' :	action_id,
+            #     'link' :	video_url,
+            #     'quantity' : video_comment
+            # }
+            if comment_list :
+                print(type(comment_list))   
+                comment_list = str(comment_list).split(',')
+                print(type(comment_list))
+                parameters['comments'] = comment_list
+                if len(comment_list) != int(video_comment) :
+                    messages.error(request, f"Please keep comment box empty or enter the same amount of comments as you have enter the needed comments !")
+                    return render(request, self.template_name, self.get_context_data()) 
             response = requests.post(url=url,params=parameters)
             response = response.json()
-            print(response)
             
             if 'status' in response :
                 messages.success(request, f"{response['status']}")
@@ -3113,14 +3128,19 @@ class ViewsYoutubeVideoAPIView(TemplateView):
             key = os.getenv('SOCIALBHAI_KEY')
             action_id = os.getenv('SOCIALBHAI_VIEW_ACTION_ID')
             
+            # parameters = {
+            #     'key' : key,
+            #     'action' : 'add',
+            #     'service' :	action_id,
+            #     'link' :	video_url,
+            #     'quantity' : video_views,
+            # }
             parameters = {
                 'key' : key,
-                'action' : 'add',
-                'service' :	action_id,
-                'link' :	video_url,
-                'quantity' : video_views,
+                'action' : 'balance'
             }
             response = requests.post(url=url,params=parameters)
+            print(response.json(),': ------------1--------------')
             response = response.json()
             
             if 'status' in response :

@@ -1,20 +1,17 @@
 import requests
 
 
-ACTION = 'add'
+ACTION = 'balance'
 SERVICE_ID = '2582'
 SERVICE_ID = '2730'
 URL = 'https://socialbhai.in/api/v1'
 KEY = '5Mu97RS0ezVXUgW2DMbaHJUZaO0gmuTE'
-VIDEO_LINK = 'https://www.youtube.com/watch?v=ls6_xV8zKow&ab_channel=DaRTYSTaRK'
+VIDEO_LINK = 'https://www.youtube.com/watch?v=6DR4gGLRNgM&t=7s&ab_channel=RikenKhadela'
 VIEW_QUANTITY = '5'
 INTERVAL_TIME = 0
 parameters = {
     'key' : KEY,
-    'action' : ACTION,
-    'service' :	SERVICE_ID,
-    'link' :	VIDEO_LINK,
-    'quantity' : VIEW_QUANTITY,
+    'action' : ACTION
 }
 
 r = requests.post(URL,params= parameters)
