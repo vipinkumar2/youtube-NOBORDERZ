@@ -1,58 +1,66 @@
 import requests
 import urllib.parse
+aa = ''' curl -X GET "https://randommer.io/api/Name?nameType=fullname&quantity=1" -H  "accept: */*" -H  "X-Api-Key: dd78b86caaae4f04a4957cb5f3730b45" '''
+# headers = {
+#     'accept': '*/*',
+#     'X-Api-Key': 'dd78b86caaae4f04a4957cb5f3730b45'
+# }
+# def get_random_username():
+#     url = "https://randommer.io/api/Name?nameType=fullname&quantity=1"
+#     full_name = requests.post(url,headers=headers)
+#     # return full_name
+#     print(full_name)
 
-class getsmscode:
-    def req(self, args, endpoint):
-        if not endpoint in [1, 2]:
-            raise Exception('Endpoint must be 1 or 2.')
-        if endpoint == 1:
-            return requests.get(self.endpoint1 + urllib.parse.urlencode(args)).text
-        elif endpoint == 2:
-            return requests.get(self.endpoint2 + urllib.parse.urlencode(args)).text
+# # print(get_random_username())
+import subprocess
+
+# bash_com = 'curl -X GET "https://randommer.io/api/Name?nameType=fullname&quantity=1" -H  "accept: */*" -H  "X-Api-Key: dd78b86caaae4f04a4957cb5f3730b45"'
+# subprocess.Popen(bash_com)
+# output = subprocess.check_output( bash_com)
+# print(output)
+# def run_cmd(cmd, verbose=True):
+#     """Run shell commands, and return the results
+
+#     ``cmd`` should be a string like typing it in shell.
+#     """
+#     try:
+#         if verbose:
+#             print(f'Command: {cmd}')
+
+#         r = subprocess.run(cmd, stdout=subprocess.PIPE,
+#                            stderr=subprocess.STDOUT, shell=True, text=True)
+
+#         if verbose:
+#             if r.returncode == 0:
+#                 print(f'Successful to run the command: {cmd}')
+#                 print(f'Result of the command: {r.stdout}')
+#                 print(r.stdout,'----------------------------')
+#                 return r.stdout
+#             else:
+#                 print(f'Failed to run the command: {cmd}')
+#                 print(f'Result of the command: {r.stdout}')
+
+#         return r.stdout
+#     except Exception as e:
+#         print(e)
+      
+# ddd = run_cmd(aa)  
+# print(ddd)
+# print(list(ddd))
+# print(type(list(ddd)))
+
+def fake_name():
+        from faker import Faker
+        fake = Faker()
+        name = fake.name()
+        name_li = str(name).split(' ')
+        fname = name_li[0]
+        lname = name_li[-1]
+        print(name)
+        return name,fname, lname
     
-    def __init__(self, username, token):
-        self.endpoint1 = 'http://www.getsmscode.com/do.php?'
-        self.endpoint2 = 'http://www.getsmscode.com/vndo.php?'
-        res = self.req({'action': 'login', 'username': username, 'token': token}, 1)
-        if res == 'username is wrong':
-            raise Exception(res)
-        elif res == 'token is wrong':
-            raise Exception(res)
-        else:
-            self.username = username
-            self.token = token
-            return None
-    
-    def get_balance(self):
-        res = self.req({'action': 'login', 'username': self.username, 'token': self.token}, 1)
-        aargs = res.split('|')
-        if not aargs[1]:
-            raise Exception(res)
-        return aargs[1]
-    
-    def get_number(self, pid, cocode):
-        if cocode == 'cn':
-            res = self.req({'action': 'getmobile', 'username': self.username, 'token': self.token, 'pid': pid}, 1)
-        else:
-            res = self.req({'action': 'getmobile', 'username': self.username, 'token': self.token, 'pid': pid, 'cocode': cocode}, 2)
-        if res.isdigit():
-            return res
-        raise Exception(res)
-    
-    def get_sms(self, number, pid, cocode):
-        if cocode == 'cn':
-            res = self.req({'action': 'getsms', 'username': self.username, 'token': self.token, 'pid': pid, 'mobile': number, 'author': self.username}, 1)
-        else:
-            res = self.req({'action': 'getsms', 'username': self.username, 'token': self.token, 'pid': pid, 'mobile': number, 'cocode': cocode}, 2)
-        if res.startswith('1|'):
-            return res.replace('1|', '')
-        return False
-    
-    def add_blacklist(self, number, pid, cocode):
-        if cocode == 'cn':
-            res = self.req({'action': 'addblack', 'username': self.username, 'token': self.token, 'pid': pid, 'mobile': number}, 1)
-        else:
-            res = self.req({'action': 'addblack', 'username': self.username, 'token': self.token, 'pid': pid, 'mobile': number, 'cocode': cocode}, 2)
-        if res == 'Message|Had add black list':
-            return True
-        return False
+# print(fake_name())
+name,fname, lname = fake_name()
+name = name.split(' ')
+name = name[0]+name[1]
+print(name)
