@@ -18,6 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 recovery_email = 'rikenkhadela85@gmail.com'
 profile_name = str(random.randint(100000,9999999))
+print(f'profile_name : {profile_name}')
 password = 'Noborderz@123'
 def random_sleep(a = 10, b = 16):
     time.sleep(random.randint(a,b))
@@ -56,15 +57,13 @@ def get_number(pid='1',country = 'my'):
         full_url = url + payload
         response = requests.post(url=full_url)
         response = response.content.decode("utf-8")
-        # print(response)
-        # time.sleep(1000)
         if str(response) == 'Message|Capture Max mobile numbers,you max is 5':
             continue
         else:break
     return response
 
 def get_sms(phone_number, pid='1',country = 'my'):
-    print(phone_number,'-------2-----------')
+    print('phone_number : ',phone_number)
     url = "http://api.getsmscode.com/vndo.php?"
     payload = {
         "action": "getsms",
@@ -78,15 +77,12 @@ def get_sms(phone_number, pid='1',country = 'my'):
     payload = urlencode(payload)
     full_url = url + payload
     for x in range(20):
-        print(x)
         response = requests.post(url=full_url).text
-        print(response)
         if "Google verification" in response:
             response = response.split(' ')
             for i in response : 
                 if i.split('-') :
                     i = i.split('—')
-                    # print(i)
                     for i_part in i :
                         try:
                             if int(i_part):
@@ -110,7 +106,7 @@ def ban_number(phone_number, pid='1',country = 'my'):
     payload = urlencode(payload)
     full_url = url + payload
     response = requests.post(url=full_url)
-    print(response.text)
+    print('response : ',response.text)
     return response
 
 def fake_name():
@@ -131,7 +127,7 @@ for i in range(5):
         if change_number :
             number = get_number()
             pluse_number = f'+{number}'
-            print(number)
+            print('number :',number)
             change_number = False
         driver.get('http://www.google.com')
 
@@ -149,7 +145,7 @@ for i in range(5):
         name = name.split(' ')
         name = name[0]+name[1]
         email = str(name)+str(random.randint(10000,999999))
-        print(email)
+        print('email :',email)
         f_name = driver.find_element(By.XPATH,'//*[@id="username"]').send_keys(email)
         f_name = driver.find_element(By.XPATH,'//*[@id="passwd"]/div[1]/div/div[1]/input').send_keys(password)
         f_name = driver.find_element(By.XPATH,'//*[@id="confirm-passwd"]/div[1]/div/div[1]/input').send_keys(password)
@@ -163,16 +159,15 @@ for i in range(5):
         random_sleep(7,12)
         try: 
             phone_notaccepted = driver.find_element(By.CLASS_NAME,'o6cuMc')
-            if phone_notaccepted : ...
-                # change_number = True
-                # ban_number(number)
+            if phone_notaccepted : 
+                change_number = True
+                ban_number(number)
             continue
         except Exception as e:...
     
-    # input('Enter 2:')
     
         number_otp = get_sms(number)
-        print(number_otp,':  -----------1---------')
+        print('number_otp :',number_otp)
         if not number_otp : 
             change_number = True
             ban_number(number)
@@ -214,11 +209,12 @@ for i in range(5):
         random_sleep()
         driver.find_element(By.XPATH,'//*[@id="view_container"]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button').click()
         random_sleep()
-        for link in link_list():
-            new_tab(driver=driver,link=link,refresh_needed=True)
-        random_sleep(10,12)
+        # for link in link_list:
+        #     new_tab(driver=driver,link=link,refresh_needed=True)
+        # random_sleep(10,12)
+        for i in range(4):driver.get('https://www.youtube.com')
         
-        # input('Enter :')
+        input('Enter :')
         driver.quit()
         
         
