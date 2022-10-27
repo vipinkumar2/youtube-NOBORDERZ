@@ -2639,47 +2639,47 @@ class LikeOnYoutubeVideoAPIView(TemplateView):
         
         
         
-        # ----------------------------------------------------------------------
-        # for sending likes by social bhai api
+        # # ----------------------------------------------------------------------
+        # # for sending likes by social bhai api
         
-        video_likes = self.request.POST.get("your_likes", None)
-        admin_id = self.request.POST.get("admin_user_id")
-        timezone = self.request.POST.get("timezone")
-        video_url = self.request.POST.get("video_url", None)
-        user = self.request.user
-        if video_likes and video_url:
-            YoutubeJob.objects.create(
-                user=user,
-                video_url=video_url,
-                job_type="VIEW_VIDEO",
-                status="P",
-                view_video=video_likes,
-            )
-            min_views = os.getenv('MIN_YT_SENT_LIKE_LIMIT')
-            url = os.getenv('SOCIALBHAI_URL')
-            key = os.getenv('SOCIALBHAI_KEY')
-            action_id = os.getenv('SOCIALBHAI_LIKE_ACTION_ID')
+        # video_likes = self.request.POST.get("your_likes", None)
+        # admin_id = self.request.POST.get("admin_user_id")
+        # timezone = self.request.POST.get("timezone")
+        # video_url = self.request.POST.get("video_url", None)
+        # user = self.request.user
+        # if video_likes and video_url:
+        #     YoutubeJob.objects.create(
+        #         user=user,
+        #         video_url=video_url,
+        #         job_type="VIEW_VIDEO",
+        #         status="P",
+        #         view_video=video_likes,
+        #     )
+        #     min_views = os.getenv('MIN_YT_SENT_LIKE_LIMIT')
+        #     url = os.getenv('SOCIALBHAI_URL')
+        #     key = os.getenv('SOCIALBHAI_KEY')
+        #     action_id = os.getenv('SOCIALBHAI_LIKE_ACTION_ID')
             
-            parameters = {
-                'key' : key,
-                'action' : 'add',
-                'service' :	action_id,
-                'link' :	video_url,
-                'quantity' : video_likes,
-            }
-            response = requests.post(url=url,params=parameters)
-            response = response.json()
-            if 'status' in response :
-                messages.success(request, f"{response['status']}")
-            elif 'error' in response :        
-                messages.error(request, f"{response['error']}!")
+        #     parameters = {
+        #         'key' : key,
+        #         'action' : 'add',
+        #         'service' :	action_id,
+        #         'link' :	video_url,
+        #         'quantity' : video_likes,
+        #     }
+        #     response = requests.post(url=url,params=parameters)
+        #     response = response.json()
+        #     if 'status' in response :
+        #         messages.success(request, f"{response['status']}")
+        #     elif 'error' in response :        
+        #         messages.error(request, f"{response['error']}!")
                 
-        else : 
-            messages.error(request, "Video views Job creation Failed!")
-        return render(request, self.template_name, self.get_context_data())
+        # else : 
+        #     messages.error(request, "Video views Job creation Failed!")
+        # return render(request, self.template_name, self.get_context_data())
         
         
-        # ----------------------------------------------------------------------
+        # # ----------------------------------------------------------------------
         
         
         
@@ -2687,54 +2687,54 @@ class LikeOnYoutubeVideoAPIView(TemplateView):
         # ----------------------------------------------------------------------
         # for sending like by own yt accounts and driver
         
-        # user_email = self.request.POST.get("youtube_email", None)
-        # lik_option = self.request.POST.get("like_video", None)
-        # admin_id = self.request.POST.get("admin_user_id")
-        # timezone = self.request.POST.get("timezone")
-        # user = self.request.user
-        # groups = self.request.POST.get("group_name", None)
-        # video_url = self.request.POST.get("video_url", None)
-        # now = datetime.datetime.now(pytz.timezone("UTC"))
-        # try:
-        #     if groups and lik_option:
-        #         group = YoutubeGroup.objects.get(id=groups)
-        #         members = YoutubeAccount.objects.filter(group=group)
-        #         job = YoutubeJob.objects.create(
-        #             user=user,
-        #             video_url=video_url,
-        #             job_type="LIKE",
-        #             status="P",
-        #             group=group,
-        #         )
-        #         # like_on_video.delay(job.id)
-        #         like_video_yt(
-        #             job.id, schedule=now, verbose_name=job.job_type, creator=job.user
-        #         )
+        user_email = self.request.POST.get("youtube_email", None)
+        lik_option = self.request.POST.get("like_video", None)
+        admin_id = self.request.POST.get("admin_user_id")
+        timezone = self.request.POST.get("timezone")
+        user = self.request.user
+        groups = self.request.POST.get("group_name", None)
+        video_url = self.request.POST.get("video_url", None)
+        now = datetime.datetime.now(pytz.timezone("UTC"))
+        try:
+            if groups and lik_option:
+                group = YoutubeGroup.objects.get(id=groups)
+                members = YoutubeAccount.objects.filter(group=group)
+                job = YoutubeJob.objects.create(
+                    user=user,
+                    video_url=video_url,
+                    job_type="LIKE",
+                    status="P",
+                    group=group,
+                )
+                # like_on_video.delay(job.id)
+                like_video_yt(
+                    job.id, schedule=now, verbose_name=job.job_type, creator=job.user
+                )
                 
-        #         messages.success(request, "Like Video Job created Using Group!")
-        #         return render(request, self.template_name, self.get_context_data())
-        #     elif user_email and lik_option:
-        #         youtube_account = YoutubeAccount.objects.filter(id=user_email).first()
-        #         job = YoutubeJob.objects.create(
-        #             user=user,
-        #             video_url=video_url,
-        #             job_type="LIKE",
-        #             status="P",
-        #             accounts=youtube_account,
-        #         )
-        #         # like_on_video.delay(job.id)
-        #         like_video_yt(
-        #             job.id, schedule=now, verbose_name=job.job_type, creator=job.user
-        #         )
-        #         messages.success(request, "Like Video Job created Using Accounts!")
-        #         return render(request, self.template_name, self.get_context_data())
-        #     else:
-        #         messages.error(request, "Select accounts or like checkbox")
-        #         return render(request, self.template_name, self.get_context_data())
-        # except Exception as e:
-        #     print(e)
-        #     messages.error(request, "There was an error while creating job.")
-        #     return render(request, self.template_name, {})
+                messages.success(request, "Like Video Job created Using Group!")
+                return render(request, self.template_name, self.get_context_data())
+            elif user_email and lik_option:
+                youtube_account = YoutubeAccount.objects.filter(id=user_email).first()
+                job = YoutubeJob.objects.create(
+                    user=user,
+                    video_url=video_url,
+                    job_type="LIKE",
+                    status="P",
+                    accounts=youtube_account,
+                )
+                # like_on_video.delay(job.id)
+                like_video_yt(
+                    job.id, schedule=now, verbose_name=job.job_type, creator=job.user
+                )
+                messages.success(request, "Like Video Job created Using Accounts!")
+                return render(request, self.template_name, self.get_context_data())
+            else:
+                messages.error(request, "Select accounts or like checkbox")
+                return render(request, self.template_name, self.get_context_data())
+        except Exception as e:
+            print(e)
+            messages.error(request, "There was an error while creating job.")
+            return render(request, self.template_name, {})
 
         # ----------------------------------------------------------------------
 
@@ -2752,112 +2752,112 @@ class CommentOnYoutubeVideoAPIView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         
-        # ----------------------------------------------------
+        # # ----------------------------------------------------
         
-        # sending comments by social bhai api.....
-        video_comment = self.request.POST.get("your_comment", None)
-        admin_id = self.request.POST.get("admin_user_id")
-        timezone = self.request.POST.get("timezone")
-        video_url = self.request.POST.get("video_url", None)
-        comment_list = self.request.POST.get("your_cooment_list", None)
-        user = self.request.user
-        if video_comment and video_url:
-            YoutubeJob.objects.create(
-                user=user,
-                video_url=video_url,
-                job_type="VIEW_VIDEO",
-                status="P",
-                view_video=video_comment,
-            )
-            min_views = os.getenv('MIN_YT_SENT_COMMENT_LIMIT')
-            url = os.getenv('SOCIALBHAI_URL')
-            key = os.getenv('SOCIALBHAI_KEY')
-            action_id = os.getenv('SOCIALBHAI_COMMENT_ACTION_ID')
+        # # sending comments by social bhai api.....
+        # video_comment = self.request.POST.get("your_comment", None)
+        # admin_id = self.request.POST.get("admin_user_id")
+        # timezone = self.request.POST.get("timezone")
+        # video_url = self.request.POST.get("video_url", None)
+        # comment_list = self.request.POST.get("your_cooment_list", None)
+        # user = self.request.user
+        # if video_comment and video_url:
+        #     YoutubeJob.objects.create(
+        #         user=user,
+        #         video_url=video_url,
+        #         job_type="VIEW_VIDEO",
+        #         status="P",
+        #         view_video=video_comment,
+        #     )
+        #     min_views = os.getenv('MIN_YT_SENT_COMMENT_LIMIT')
+        #     url = os.getenv('SOCIALBHAI_URL')
+        #     key = os.getenv('SOCIALBHAI_KEY')
+        #     action_id = os.getenv('SOCIALBHAI_COMMENT_ACTION_ID')
             
-            parameters = {
-                'key' : key,
-                'action' : 'balance'
-            }
-            # parameters = {
-            #     'key' : key,
-            #     'action' : 'add',
-            #     'service' :	action_id,
-            #     'link' :	video_url,
-            #     'quantity' : video_comment
-            # }
-            if comment_list :
-                print(type(comment_list))   
-                comment_list = str(comment_list).split(',')
-                print(type(comment_list))
-                parameters['comments'] = comment_list
-                if len(comment_list) != int(video_comment) :
-                    messages.error(request, f"Please keep comment box empty or enter the same amount of comments as you have enter the needed comments !")
-                    return render(request, self.template_name, self.get_context_data()) 
-            response = requests.post(url=url,params=parameters)
-            response = response.json()
+        #     parameters = {
+        #         'key' : key,
+        #         'action' : 'balance'
+        #     }
+        #     # parameters = {
+        #     #     'key' : key,
+        #     #     'action' : 'add',
+        #     #     'service' :	action_id,
+        #     #     'link' :	video_url,
+        #     #     'quantity' : video_comment
+        #     # }
+        #     if comment_list :
+        #         print(type(comment_list))   
+        #         comment_list = str(comment_list).split(',')
+        #         print(type(comment_list))
+        #         parameters['comments'] = comment_list
+        #         if len(comment_list) != int(video_comment) :
+        #             messages.error(request, f"Please keep comment box empty or enter the same amount of comments as you have enter the needed comments !")
+        #             return render(request, self.template_name, self.get_context_data()) 
+        #     response = requests.post(url=url,params=parameters)
+        #     response = response.json()
             
-            if 'status' in response :
-                messages.success(request, f"{response['status']}")
-            elif 'error' in response :        
-                messages.error(request, f"{response['error']}!")
-        else : 
-            messages.error(request, "Video views Job creation Failed!")
-        return render(request, self.template_name, self.get_context_data()) 
-        # -----------------------------------------------------
+        #     if 'status' in response :
+        #         messages.success(request, f"{response['status']}")
+        #     elif 'error' in response :        
+        #         messages.error(request, f"{response['error']}!")
+        # else : 
+        #     messages.error(request, "Video views Job creation Failed!")
+        # return render(request, self.template_name, self.get_context_data()) 
+        # # -----------------------------------------------------
     
         # -----------------------------------------------------
         
         # using own comments functionality
-        # user_email = self.request.POST.get("youtube_email", None)
-        # comments = self.request.POST.get("your_cmnt", None)
-        # admin_id = self.request.POST.get("admin_user_id")
-        # timezone = self.request.POST.get("timezone")
-        # user = self.request.user
-        # groups = self.request.POST.get("group_name", None)
-        # video_url = self.request.POST.get("video_url", None)
-        # scheduled_for = datetime.datetime.now(pytz.UTC)
-        # now = datetime.datetime.now(pytz.timezone("UTC"))
-        # try:
-        #     if groups and comments:
-        #         group = YoutubeGroup.objects.get(id=groups)
-        #         members = YoutubeAccount.objects.filter(group=group)
-        #         job = YoutubeJob.objects.create(
-        #             user=user,
-        #             video_url=video_url,
-        #             job_type="COMMENT",
-        #             status="P",
-        #             group=group,
-        #         )
+        user_email = self.request.POST.get("youtube_email", None)
+        comments = self.request.POST.get("your_cmnt", None)
+        admin_id = self.request.POST.get("admin_user_id")
+        timezone = self.request.POST.get("timezone")
+        user = self.request.user
+        groups = self.request.POST.get("group_name", None)
+        video_url = self.request.POST.get("video_url", None)
+        scheduled_for = datetime.datetime.now(pytz.UTC)
+        now = datetime.datetime.now(pytz.timezone("UTC"))
+        try:
+            if groups and comments:
+                group = YoutubeGroup.objects.get(id=groups)
+                members = YoutubeAccount.objects.filter(group=group)
+                job = YoutubeJob.objects.create(
+                    user=user,
+                    video_url=video_url,
+                    job_type="COMMENT",
+                    status="P",
+                    group=group,
+                )
                 
-        #         comment_video_yt(
-        #             job.id, schedule=now, verbose_name=job.job_type, creator=job.user
-        #         )
-        #         messages.success(request, "Comment on video Job created!")
-        #         return render(request, self.template_name, self.get_context_data())
-        #     elif user_email and comments:
-        #         credential = (
-        #             YoutubeAccount.objects.filter(id=user_email).first().credentials
-        #         )
-        #         youtube_account = YoutubeAccount.objects.filter(id=user_email).first()
-        #         job = YoutubeJob.objects.create(
-        #             user=user,
-        #             video_url=video_url,
-        #             job_type="COMMENT",
-        #             status="P",
-        #             accounts=youtube_account,
-        #         )
-        #         comment_video_yt(
-        #             job.id, schedule=now, verbose_name=job.job_type, creator=job.user
-        #         )
-        #         messages.success(request, "Comment on video Job created!")
-        #         return render(request, self.template_name, self.get_context_data())
-        #     else:
-        #         messages.error(request, "Please select accounts ")
-        #         return render(request, self.template_name, self.get_context_data())
-        # except Exception as e:
-        #     print(e)
-        #     messages.error(request, "There was an error while creating job.")
-        #     return render(request, self.template_name, {})
+                comment_video_yt(
+                    job.id, schedule=now, verbose_name=job.job_type, creator=job.user
+                )
+                messages.success(request, "Comment on video Job created!")
+                return render(request, self.template_name, self.get_context_data())
+            elif user_email and comments:
+                credential = (
+                    YoutubeAccount.objects.filter(id=user_email).first().credentials
+                )
+                youtube_account = YoutubeAccount.objects.filter(id=user_email).first()
+                job = YoutubeJob.objects.create(
+                    user=user,
+                    video_url=video_url,
+                    job_type="COMMENT",
+                    status="P",
+                    accounts=youtube_account,
+                )
+                comment_video_yt(
+                    job.id, schedule=now, verbose_name=job.job_type, creator=job.user
+                )
+                messages.success(request, "Comment on video Job created!")
+                return render(request, self.template_name, self.get_context_data())
+            else:
+                messages.error(request, "Please select accounts ")
+                return render(request, self.template_name, self.get_context_data())
+        except Exception as e:
+            print(e)
+            messages.error(request, "There was an error while creating job.")
+            return render(request, self.template_name, {})
         # -----------------------------------------------------
         
 
@@ -2905,95 +2905,95 @@ class SubscribeChannelAPIView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        # ----------------------------------------------------
-        # sending subscribes by social bhai api.....
-        video_subscribes = self.request.POST.get("your_subscribes", None)
-        admin_id = self.request.POST.get("admin_user_id")
-        timezone = self.request.POST.get("timezone")
-        video_url = self.request.POST.get("video_url", None)
-        user = self.request.user
-        if video_subscribes and video_url:
-            YoutubeJob.objects.create(
-                user=user,
-                video_url=video_url,
-                job_type="VIEW_VIDEO",
-                status="P",
-                view_video=video_subscribes,
-            )
-            min_views = os.getenv('MIN_YT_SENT_SUBSCRIBE_LIMIT')
-            url = os.getenv('SOCIALBHAI_URL')
-            key = os.getenv('SOCIALBHAI_KEY')
-            action_id = os.getenv('SOCIALBHAI_SUBSCRIBE_ACTION_ID')
+        # # ----------------------------------------------------
+        # # sending subscribes by social bhai api.....
+        # video_subscribes = self.request.POST.get("your_subscribes", None)
+        # admin_id = self.request.POST.get("admin_user_id")
+        # timezone = self.request.POST.get("timezone")
+        # video_url = self.request.POST.get("video_url", None)
+        # user = self.request.user
+        # if video_subscribes and video_url:
+        #     YoutubeJob.objects.create(
+        #         user=user,
+        #         video_url=video_url,
+        #         job_type="VIEW_VIDEO",
+        #         status="P",
+        #         view_video=video_subscribes,
+        #     )
+        #     min_views = os.getenv('MIN_YT_SENT_SUBSCRIBE_LIMIT')
+        #     url = os.getenv('SOCIALBHAI_URL')
+        #     key = os.getenv('SOCIALBHAI_KEY')
+        #     action_id = os.getenv('SOCIALBHAI_SUBSCRIBE_ACTION_ID')
             
-            parameters = {
-                'key' : key,
-                'action' : 'balance',
-                # 'service' :	action_id,
-                # 'link' :	video_url,
-                # 'quantity' : video_subscribes,
-            }
-            response = requests.post(url=url,params=parameters)
-            response = response.json()
-            print(response)
+        #     parameters = {
+        #         'key' : key,
+        #         'action' : 'balance',
+        #         # 'service' :	action_id,
+        #         # 'link' :	video_url,
+        #         # 'quantity' : video_subscribes,
+        #     }
+        #     response = requests.post(url=url,params=parameters)
+        #     response = response.json()
+        #     print(response)
             
-            if 'status' in response :
-                messages.success(request, f"{response['status']}")
-            elif 'error' in response :        
-                messages.error(request, f"{response['error']}!")
-        else : 
-            messages.error(request, "Video views Job creation Failed!")
-        return render(request, self.template_name, self.get_context_data())   
-        # ----------------------------------------------------
+        #     if 'status' in response :
+        #         messages.success(request, f"{response['status']}")
+        #     elif 'error' in response :        
+        #         messages.error(request, f"{response['error']}!")
+        # else : 
+        #     messages.error(request, "Video views Job creation Failed!")
+        # return render(request, self.template_name, self.get_context_data())   
+        # # ----------------------------------------------------
             
         # ----------------------------------------------------
         # sending subscribes by own yt accounts
         
-        # user_email = self.request.POST.get("youtube_email", None)
-        # subscribe = self.request.POST.get("subscrib_channel", None)
-        # admin_id = self.request.POST.get("admin_user_id")
-        # channel_id = self.request.POST.get("channel_id")
-        # timezone = self.request.POST.get("timezone")
-        # user = self.request.user
-        # scheduled_for = datetime.datetime.now(pytz.UTC)
-        # groups = self.request.POST.get("group_name", None)
-        # now = datetime.datetime.now(pytz.timezone("UTC"))
-        # try:
-        #     if groups and channel_id:
-        #         group = YoutubeGroup.objects.get(id=groups)
-        #         job = YoutubeJob.objects.create(
-        #             user=user,
-        #             channel_id=channel_id,
-        #             job_type="SUBSCRIBE",
-        #             status="P",
-        #             group=group,
-        #         )
-        #         sunscribe_channel_yt(
-        #             job.id, schedule=now, verbose_name=job.job_type, creator=job.user
-        #         )
-        #         messages.success(request, "Comment on video Job created!")
-        #         return render(request, self.template_name, self.get_context_data())
-        #     elif subscribe and channel_id:
-        #         youtube_account = YoutubeAccount.objects.filter(id=user_email).first()
-        #         job = YoutubeJob.objects.create(
-        #             user=user,
-        #             job_type="SUBSCRIBE",
-        #             status="P",
-        #             channel_id=channel_id,
-        #             accounts=youtube_account,
-        #         )
+        user_email = self.request.POST.get("youtube_email", None)
+        subscribe = self.request.POST.get("subscrib_channel", None)
+        admin_id = self.request.POST.get("admin_user_id")
+        channel_id = self.request.POST.get("channel_id")
+        timezone = self.request.POST.get("timezone")
+        user = self.request.user
+        scheduled_for = datetime.datetime.now(pytz.UTC)
+        groups = self.request.POST.get("group_name", None)
+        now = datetime.datetime.now(pytz.timezone("UTC"))
+        try:
+            if groups and channel_id:
+                group = YoutubeGroup.objects.get(id=groups)
+                job = YoutubeJob.objects.create(
+                    user=user,
+                    channel_id=channel_id,
+                    job_type="SUBSCRIBE",
+                    status="P",
+                    group=group,
+                )
+                sunscribe_channel_yt(
+                    job.id, schedule=now, verbose_name=job.job_type, creator=job.user
+                )
+                messages.success(request, "Comment on video Job created!")
+                return render(request, self.template_name, self.get_context_data())
+            elif subscribe and channel_id:
+                youtube_account = YoutubeAccount.objects.filter(id=user_email).first()
+                job = YoutubeJob.objects.create(
+                    user=user,
+                    job_type="SUBSCRIBE",
+                    status="P",
+                    channel_id=channel_id,
+                    accounts=youtube_account,
+                )
 
-        #         sunscribe_channel_yt(
-        #             job.id, schedule=now, verbose_name=job.job_type, creator=job.user
-        #         )
-        #         messages.success(request, "subscribe channel Job creation successfully")
-        #         return render(request, self.template_name, self.get_context_data())
-        #     else:
-        #         messages.error(request, "please select accounts or subscribe button!")
-        #         return render(request, self.template_name, self.get_context_data())
-        # except Exception as e:
-        #     print(e)
-        #     messages.error(request, "There was an error while creating job.")
-        #     return render(request, self.template_name, {})
+                sunscribe_channel_yt(
+                    job.id, schedule=now, verbose_name=job.job_type, creator=job.user
+                )
+                messages.success(request, "subscribe channel Job creation successfully")
+                return render(request, self.template_name, self.get_context_data())
+            else:
+                messages.error(request, "please select accounts or subscribe button!")
+                return render(request, self.template_name, self.get_context_data())
+        except Exception as e:
+            print(e)
+            messages.error(request, "There was an error while creating job.")
+            return render(request, self.template_name, {})
 
         # ----------------------------------------------------
 
@@ -3135,29 +3135,33 @@ class ViewsYoutubeVideoAPIView(TemplateView):
             #     'link' :	video_url,
             #     'quantity' : video_views,
             # }
-            parameters = {
-                'key' : key,
-                'action' : 'balance'
-            }
-            response = requests.post(url=url,params=parameters)
-            print(response.json(),': ------------1--------------')
-            response = response.json()
+            # # -------------------------------------------------------------------
+            # parameters = {
+            #     'key' : key,
+            #     'action' : 'balance'
+            # }
+            # response = requests.post(url=url,params=parameters)
+            # print(response.json(),': ------------1--------------')
+            # response = response.json()
             
-            if 'status' in response :
-                messages.success(request, f"{response['status']}")
-            elif 'error' in response :        
-                messages.error(request, f"{response['error']}!")
+            # if 'status' in response :
+            #     messages.success(request, f"{response['status']}")
+            # elif 'error' in response :        
+            #     messages.error(request, f"{response['error']}!")
                 
+            # # -------------------------------------------------------------------
+            
+            
             # -------------------------------------------------------------------
             
             # this is used for when we wants to send like throught the chrome driver.
             
-            # min_views = 0
-            # if int(video_views) < int(min_views) : 
-            #     messages.error(request, f"Please send views more than {min_views} !")
-            # else : 
-                # send_view(video_url=video_url,video_views=video_views)
-            #     messages.success(request, "Video views Job created!")
+            min_views = 0
+            if int(video_views) < int(min_views) : 
+                messages.error(request, f"Please send views more than {min_views} !")
+            else : 
+                send_view(video_url=video_url,video_views=video_views)
+                messages.success(request, "Video views Job created!")
             
             # -------------------------------------------------------------------
         else : 

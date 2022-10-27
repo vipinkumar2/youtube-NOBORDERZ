@@ -106,7 +106,18 @@ DATABASES = {
         "PORT": os.getenv("DATABASE_PORT", "5432"),
     }
 }
-
+# added manually
+MONITOR_TASKS = True
+if MONITOR_TASKS:
+    MONITOR_DB = {'monitor': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'surviral_webapp',
+        'USER': 'surviraluser',
+        'PASSWORD': 'Surviral#786',
+        'HOST': 'surviral-project.c4jxfxmbuuss.ap-southeast-1.rds.amazonaws.com',
+        'PORT': '5432'
+    }}
+    DATABASES = {**DATABASES, **MONITOR_DB}
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -245,3 +256,6 @@ SEND_LOG_TO_SLACK = os.environ.get("SEND_LOG_TO_SLACK", False)
 
 # Twitter ART images
 ART_IMAGE_DIR = os.environ.get("ART_IMAGE_DIR")
+
+
+
