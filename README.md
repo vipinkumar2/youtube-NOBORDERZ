@@ -1,1 +1,0 @@
-# surviral_web
