@@ -3007,10 +3007,10 @@ def youtube_callbackurl(request):
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         "client_secrets.json",
         scopes=[
-            "openid",
-            "https://www.googleapis.com/auth/youtube.force-ssl",
             "https://www.googleapis.com/auth/userinfo.email",
+            "openid",
             "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/youtube.force-ssl",
         ],
     )
     flow.redirect_uri = "http://localhost:8000/en/advance/dashboard/youtube_callback/"

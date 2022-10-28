@@ -98,26 +98,15 @@ WSGI_APPLICATION = "surviral_web.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("SURVIRAL_DATABASE_NAME", "surviral"),
-        "USER": os.getenv("SURVIRAL_DATABASE_USER", "postgres"),
-        "PASSWORD": os.getenv("SURVIRAL_DATABASE_PASSWORD", "0000"),
-        "HOST": os.getenv("DATABASE_HOST", "localhost"),
-        "PORT": os.getenv("DATABASE_PORT", "5432"),
-    }
-}
-# added manually
-MONITOR_TASKS = True
-if MONITOR_TASKS:
-    MONITOR_DB = {'monitor': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'surviral_webapp',
         'USER': 'surviraluser',
         'PASSWORD': 'Surviral#786',
         'HOST': 'surviral-project.c4jxfxmbuuss.ap-southeast-1.rds.amazonaws.com',
         'PORT': '5432'
-    }}
-    DATABASES = {**DATABASES, **MONITOR_DB}
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
